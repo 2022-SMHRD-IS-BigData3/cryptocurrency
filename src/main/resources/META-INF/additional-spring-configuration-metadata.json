@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "google.client.clientSecret",
+  "type": "java.lang.String",
+  "description": "A description for 'google.client.clientSecret'"
+}]}
