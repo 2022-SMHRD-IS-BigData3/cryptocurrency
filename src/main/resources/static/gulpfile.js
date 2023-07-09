@@ -1,34 +1,97 @@
-var gulp = require('gulp');
-var path = require('path');
-var sass = require('gulp-sass')(require('sass'));
-var autoprefixer = require('gulp-autoprefixer');
-var sourcemaps = require('gulp-sourcemaps');
-var open = require('gulp-open');
+var options = {
+          series: [{
+          data: seriesData
+        }],
+          chart: {
+          type: 'candlestick',
+          height: 290,
+          id: 'candles',
+          toolbar: {
+            autoSelected: 'pan',
+            show: false
+          },
+          zoom: {
+            enabled: false
+          },
+        },
+        plotOptions: {
+          candlestick: {
+            colors: {
+              upward: '#3C90EB',
+              downward: '#DF7D46'
+            }
+          }
+        },
+        xaxis: {
+          type: 'datetime'
+        }
+        };
 
-var Paths = {
-  HERE: './',
-  DIST: 'dist/',
-  CSS: './assets/css/',
-  SCSS_TOOLKIT_SOURCES: './assets/scss/argon-dashboard.scss',
-  SCSS: './assets/scss/**/**'
-};
+        var chart = new ApexCharts(document.querySelector("#chart-candlestick"), options);
+        chart.render();
+      
+        var optionsBar = {
+          series: [{
+          name: 'volume',
+          data: seriesDataLinear
+        }],
+          chart: {
+          height: 160,
+          type: 'bar',
+          brush: {
+            enabled: true,
+            target: 'candles'
+          },
+          selection: {
+            enabled: true,
+            xaxis: {
+              min: new Date('20 Jan 2017').getTime(),
+              max: new Date('10 Dec 2017').getTime()
+            },
+            fill: {
+              color: '#ccc',
+              opacity: 0.4
+            },
+            stroke: {
+              color: '#0D47A1',
+            }
+          },
+        },
+        dataLabels: {
+          enabled: false
+        },
+        plotOptions: {
+          bar: {
+            columnWidth: '80%',
+            colors: {
+              ranges: [{
+                from: -1000,
+                to: 0,
+                color: '#F15B46'
+              }, {
+                from: 1,
+                to: 10000,
+                color: '#FEB019'
+              }],
+        
+            },
+          }
+        },
+        stroke: {
+          width: 0
+        },
+        xaxis: {
+          type: 'datetime',
+          axisBorder: {
+            offsetX: 13
+          }
+        },
+        yaxis: {
+          labels: {
+            show: false
+          }
+        }
+        };
 
-gulp.task('compile-scss', function() {
-  return gulp.src(Paths.SCSS_TOOLKIT_SOURCES)
-    .pipe(sourcemaps.init())
-    .pipe(sass().on('error', sass.logError))
-    .pipe(autoprefixer())
-    .pipe(sourcemaps.write(Paths.HERE))
-    .pipe(gulp.dest(Paths.CSS));
-});
-
-gulp.task('watch', function() {
-  gulp.watch(Paths.SCSS, gulp.series('compile-scss'));
-});
-
-gulp.task('open', function() {
-  gulp.src('pages/dashboard.html')
-    .pipe(open());
-});
-
-gulp.task('open-app', gulp.parallel('open', 'watch'));
+        var chartBar = new ApexCharts(document.querySelector("#chart-bar"), optionsBar);
+        chartBar.render();
