@@ -11,7 +11,7 @@ public class Main {
 
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(Main.class, args);
-
+        
         BinanceWebSocketClient binanceWebSocketClient = context.getBean(BinanceWebSocketClient.class);
         binanceWebSocketClient.connect();
 
@@ -21,6 +21,8 @@ public class Main {
         String input = scanner.nextLine();
         if (input.equalsIgnoreCase("q")) {
             context.close();
+            
+       
         }
     }
 }

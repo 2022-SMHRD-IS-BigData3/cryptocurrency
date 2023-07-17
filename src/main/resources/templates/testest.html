@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajax Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            loadData(); // 페이지 로드 시 데이터를 가져와서 표시
+
+            function loadData() {
+                $.ajax({
+                    url: '/getData', // 데이터를 받아올 URL
+                    type: 'GET',
+                    success: function(data) {
+                        // 데이터를 받아온 후 HTML에 표시
+                        $('#symbol').text(data.symbol);
+                        $('#currentTime').text(data.currentTime);
+                        $('#openPrice').text(data.openPrice);
+                        $('#closePrice').text(data.closePrice);
+                        $('#highPrice').text(data.highPrice);
+                        $('#lowPrice').text(data.lowPrice);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            }
+        });
+    </script>
+</head>
+<body>
+    <h1>Ajax Example</h1>
+    <div>
+        <p>Symbol: <span id="symbol"></span></p>
+        <p>Current Time: <span id="currentTime"></span></p>
+        <p>Open Price: <span id="openPrice"></span></p>
+        <p>Close Price: <span id="closePrice"></span></p>
+        <p>High Price: <span id="highPrice"></span></p>
+        <p>Low Price: <span id="lowPrice"></span></p>
+    </div>
+</body>
+</html>
