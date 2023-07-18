@@ -6,6 +6,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="./assets/img/favicon.png">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+        integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.css" />
   <title>
     Argon Dashboard 2 by Creative Tim
   </title>
@@ -25,93 +31,164 @@
     <!-- websocket script -->
     <!-- sockjs -->
    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
-   
+   <style>
+   	 .positive-change {
+            color: green;
+            font-weight: bold;
+        }
+        .negative-change {
+            color: red;
+            font-weight: bold;
+        }
+   </style>
 
- <script>
+<script>
+        function comma(str) {
+            str = String(str);
+            return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+        }
+        function setUpbitData() {
+            $.ajax({
+                url: "https://api.upbit.com/v1/market/all",
+                dataType: "json"
+            }).done(function (markets) {
+                let arr_krw_markets = "";
+                let arr_korean_name = [];
+                for (var i = 0; i < markets.length; i++) {
+                    if (markets[i].market.indexOf("KRW") > -1) {
+                        arr_krw_markets += markets[i].market + (",");
+                        arr_korean_name.push(markets[i].korean_name.replace("코인", ""));
+                    }
+                }
+                arr_krw_markets = arr_krw_markets.substring(0, arr_krw_markets.length - 1);
+                $.ajax({
+                    url: "https://api.upbit.com/v1/ticker?markets=" + arr_krw_markets,
+                    dataType: "json"
+                }).done(function (tickers) {
+                    $("#table_ticker > tbody > tr").remove();
+                    for (let i = 0; i < tickers.length; i++) {
+                        let rowHtml = "<tr><td>" + arr_korean_name[i].replace("코인", "").replace("토큰", "") + "</td>";
+                        rowHtml += "<td>" + comma(tickers[i].trade_price) + "</td>"
+                        let changeRate = (tickers[i].signed_change_rate * 100).toFixed(2);
+                        let changeClass = changeRate >= 0 ? "positive-change" : "negative-change";
+                        let changeText = changeRate >= 0 ? "+" + changeRate : changeRate;
+                        rowHtml += "<td class='" + changeClass + "'>" + changeText + "</td>"
+                        rowHtml += "</tr>";
+                        $("#table_ticker > tbody:last").append(rowHtml);
+                    }
+                })
+            })
+                .fail(function () {
+                    $("#tmp").text("API 접근 중 에러.");
+                })
+            setTimeout(setUpbitData, 3000);
+        }
+        $(function () {
+            setUpbitData();
+        });
+    </script>
+
+
+<script>
  document.addEventListener('DOMContentLoaded', function() {
-	  var socket = new WebSocket('wss://stream.binance.com:9443/ws');
-	  var intervalId; // 변수 선언
+    var socket = new WebSocket('wss://stream.binance.com:9443/ws');
+    var intervalId; // 변수 선언
 
-	  // WebSocket 연결이 열렸을 때 실행되는 콜백 함수
-	  socket.onopen = function() {
-	    console.log('WebSocket connection opened');
+    // WebSocket 연결이 열렸을 때 실행되는 콜백 함수
+    socket.onopen = function() {
+      console.log('WebSocket connection opened');
 
-	    // Subscribe to the desired topic
-	    var subscribeMessage = JSON.stringify({
-	      method: 'SUBSCRIBE',
-	      params: ['bnbusdt@kline_5m', 'btcusdt@kline_5m', 'ethusdt@kline_5m','solusdt@kline_1m','maticusdt@kline_1m','adausdt@kline_1m'],
-	      id: 1
-	    });
-	    socket.send(subscribeMessage);
+      // Subscribe to the desired topic
+      var subscribeMessage = JSON.stringify({
+        method: 'SUBSCRIBE',
+        params: ['bnbusdt@kline_5m', 'btcusdt@kline_5m', 'ethusdt@kline_5m','solusdt@kline_1m','maticusdt@kline_1m','adausdt@kline_1m'],
+        id: 1
+      });
+      socket.send(subscribeMessage);
 
-	    // 5분마다 데이터 요청
-	    intervalId = setInterval(function() {
-	      socket.send(subscribeMessage);
-	    }, 5 * 60 * 1000); // 5분(밀리초 단위)
-	  };
+      // 5분마다 데이터 요청
+      intervalId = setInterval(function() {
+        socket.send(subscribeMessage);
+      }, 5 * 60 * 1000); // 5분(밀리초 단위)
+    };
 
-	  // WebSocket 메시지 수신 이벤트 처리
-	  socket.onmessage = function(event) {
-	    var message = JSON.parse(event.data);
-	    if (message && message.s && message.k) {
-	      var symbol = message.s;
-	      var highPrice = message.k.h;
-	      var lowPrice = message.k.l;
+    // WebSocket 메시지 수신 이벤트 처리
+    socket.onmessage = function(event) {
+      var message = JSON.parse(event.data);
+      if (message && message.s && message.k) {
+        var symbol = message.s;
+        var highPrice = message.k.h;
+        var lowPrice = message.k.l;
 
-	      console.log('Symbol:', symbol);
-	      console.log('High Price:', highPrice);
-	      console.log('Low Price:', lowPrice);
+        console.log('Symbol:', symbol);
+        console.log('High Price:', highPrice);
+        console.log('Low Price:', lowPrice);
 
-	      // Symbol에 따라 적절한 요소에 데이터를 보여줌
-	      var symbolElement, priceElement;
-	      if (symbol === "ETHUSDT") {
-	        symbolElement = document.querySelector('.symbol1');
-	        priceElement = document.querySelector('.price1');
-	      } else if (symbol === "ADAUSDT") {
-	        symbolElement = document.querySelector('.symbol2');
-	        priceElement = document.querySelector('.price2');
-	      } else if (symbol === "BTCUSDT") {
-	        symbolElement = document.querySelector('.symbol3');
-	        priceElement = document.querySelector('.price3');
-	      } else if (symbol === "BNBUSDT") {
-	        symbolElement = document.querySelector('.symbol4');
-	        priceElement = document.querySelector('.price4');
-	      } else if (symbol === "SOLUSDT") {
-	        symbolElement = document.querySelector('.symbol5');
-	        priceElement = document.querySelector('.price5');
-	      } else if (symbol === "MATICUSDT") {
-	        symbolElement = document.querySelector('.symbol6');
-	        priceElement = document.querySelector('.price6');
-	      }
+        // Symbol에 따라 적절한 요소에 데이터를 보여줌
+        var symbolElement, priceElement;
+        if (symbol === "ETHUSDT") {
+          symbolElement = document.querySelector('.symbol1');
+          priceElement = document.querySelector('.price1');
+        } else if (symbol === "ADAUSDT") {
+          symbolElement = document.querySelector('.symbol2');
+          priceElement = document.querySelector('.price2');
+        } else if (symbol === "BTCUSDT") {
+          symbolElement = document.querySelector('.symbol3');
+          priceElement = document.querySelector('.price3');
+        } else if (symbol === "BNBUSDT") {
+          symbolElement = document.querySelector('.symbol4');
+          priceElement = document.querySelector('.price4');
+        } else if (symbol === "SOLUSDT") {
+          symbolElement = document.querySelector('.symbol5');
+          priceElement = document.querySelector('.price5');
+        } else if (symbol === "MATICUSDT") {
+          symbolElement = document.querySelector('.symbol6');
+          priceElement = document.querySelector('.price6');
+        }
 
-	      if (symbolElement && priceElement) {
-	        symbolElement.textContent = symbol;
-	        priceElement.textContent =  parseFloat(highPrice).toFixed(2);
-	      
-	      } else {
-	        console.error('요소를 찾을 수 없습니다.');
-	      }
-	    }
-	  };
+        if (symbolElement && priceElement) {
+          symbolElement.textContent = symbol.replace('USDT', '/USDT');
+          var prevPrice = parseFloat(priceElement.textContent);
+          var change = parseFloat(highPrice) - prevPrice;
 
-	  // WebSocket 연결이 닫혔을 때 실행되는 콜백 함수
-	  socket.onclose = function() {
-	    console.log('WebSocket connection closed');
+          priceElement.textContent = parseFloat(highPrice).toFixed(2);
 
-	    // Interval 해제
-	    clearInterval(intervalId);
-	  };
+          // 이전 값과 비교하여 데이터 값이 증가했을 때에는 특정 색상 적용
+          if (change > 0) {
+            priceElement.innerHTML += '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
+            priceElement.style.color = '#2dce89'; // 증가한 경우의 색상
+          } else if (change < 0) {
+            priceElement.innerHTML += '<span class="text-m font-weight-bolder"> (' + change.toFixed(2) + ')</span>';
+            priceElement.style.color = '#f5365c'; // 감소한 경우의 색상
+          } else {
+            priceElement.style.color = '#000000'; // 동일한 경우의 색상
+          }
+        } else {
+          console.error('요소를 찾을 수 없습니다.');
+        }
+      }
+    };
 
-	  // WebSocket 에러가 발생했을 때 실행되는 콜백 함수
-	  socket.onerror = function(error) {
-	    console.error('WebSocket Error:', error);
+    // WebSocket 연결이 닫혔을 때 실행되는 콜백 함수
+    socket.onclose = function() {
+      console.log('WebSocket connection closed');
 
-	    // Interval 해제
-	    clearInterval(intervalId);
-	  };
-	});
+      // Interval 해제
+      clearInterval(intervalId);
+    };
 
-    </script>    
+    // WebSocket 에러가 발생했을 때 실행되는 콜백 함수
+    socket.onerror = function(error) {
+      console.error('WebSocket Error:', error);
+
+      // Interval 해제
+      clearInterval(intervalId);
+    };
+  });
+
+</script>
+
+    
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
@@ -184,9 +261,11 @@
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
+              <a class="nav-link text-white font-weight-bold px-0 " th:attr="href=|${user != null ? '/' : 'signIn'}|">
                 <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
+                <!-- <span th:text="${user != null ? 'Sign out' : 'Sign in'}" class="d-sm-inline"></span> -->
+                <span th:if="${user != null}" class="d-sm-inline">log out</span>
+				<span th:unless="${user != null}" class="d-sm-inline">Sign in</span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -296,14 +375,15 @@
                    <span class="symbol1"></span>
                  </h5>
                  <p class="mb-0">
-                   <span class="text-success text-2xl font-weight-bolder price1"></span>
+                   <span class=" text-2xl font-weight-bolder price1"></span>
+                  <span class="text-m font-weight-bolder"></span>
                    <br>
                  </p>
                </div>
              </div>
              <div class="col-4 text-end">
                <div style="width: 20px; height: 20px;">
-                 <img src="../static/assets/img/logos/ETHUSDT.svg" width="50" height="50">
+                 <img class ="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCETH.svg" width="50" height="50" >
                </div>
              </div>
            </div>
@@ -321,14 +401,15 @@
                    <span class="symbol2"></span>
                  </h5>
                  <p class="mb-0">
-                   <span class="text-success text-2xl font-weight-bolder price2"></span>
+                   <span class=" text-2xl font-weight-bolder price2"></span>
+                    <span class="text-m font-weight-bolder"></span>
                    <br>
                  </p>
                </div>
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img src="https://static.upbit.com/logos/STORJ.png" width="50" height="50">
+                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCADA.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -346,14 +427,15 @@
                    <span class="symbol3"></span>
                  </h5>
                  <p class="mb-0">
-                   <span class="text-success text-2xl font-weight-bolder price3"></span>
+                   <span class=" text-2xl font-weight-bolder price3"></span>
+                    <span class="text-m font-weight-bolder"></span>
                    <br>
                  </p>
                </div>
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img src="https://static.upbit.com/logos/STORJ.png" width="50" height="50">
+                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -371,14 +453,15 @@
                    <span class="symbol4"></span>
                  </h5>
                  <p class="mb-0">
-                   <span class="text-success text-2xl font-weight-bolder price4"></span>
+                   <span class=" text-2xl font-weight-bolder price4"></span>
+                    <span class="text-m font-weight-bolder"></span>
                    <br>
                  </p>
                </div>
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img src="https://static.upbit.com/logos/STORJ.png" width="50" height="50">
+                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBNB.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -396,14 +479,15 @@
                    <span class="symbol5"></span>
                  </h5>
                  <p class="mb-0">
-                   <span class="text-success text-2xl font-weight-bolder price5"></span>
+                   <span class=" text-2xl font-weight-bolder price5"></span>
+                    <span class="text-m font-weight-bolder"></span>
                    <br>
                  </p>
                </div>
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img src="https://static.upbit.com/logos/STORJ.png" width="50" height="50">
+                 <img class="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCSOL.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -421,14 +505,15 @@
                    <span class="symbol6"></span>
                  </h5>
                  <p class="mb-0">
-                   <span class="text-success text-2xl font-weight-bolder price6"></span>
+                   <span class=" text-2xl font-weight-bolder price6"></span>
+                    <span class="text-m font-weight-bolder"></span>
                    <br>
                  </p>
                </div>
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img src="https://static.upbit.com/logos/STORJ.png" width="50" height="50">
+                 <img class ="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCMATIC.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -438,9 +523,7 @@
 
       </div>
 
-      
-        
-        
+
       
       <div class="row mt-4" style="height: 600px;">
 
@@ -449,7 +532,7 @@
             <div class="card-header pb-0 pt-3 bg-transparent">
               <h6 class="text-capitalize">암호화폐 실시간차트</h6>
               <p class="text-sm mb-0">
-                <i class="fa fa-arrow-up text-success"></i>
+                <i class="fa fa-arrow-up "></i>
                 <span class="font-weight-bold">4% more</span> in 2021
               </p>
             </div>
@@ -462,173 +545,53 @@
         </div>
 
         <!-- 즐겨찾기 -->
-      
-
-        <div class="col-lg-3 mb-lg-0 mb-4" style="height: 300px;">
-          <div class="card ">
-            <div class="card-header pb-0 p-3">
-              <div class="d-flex justify-content-between">
-                <h6 class="mb-2">즐겨찾기</h6>
-              </div>
+      	<div class="col-lg-3 mb-lg-0 mb-4" style="height: 300px;">
+                    <div class="card">
+                        <div class="card-header pb-0 p-3 ">
+                                <h4 class="mb-2 text-center">💲원화</h4>
+                        </div>
+                        <div id='tmp' style="color:pink; overflow: scroll; height: 300px;">
+                      
+                      <table id="table_ticker" class="table table-hover text-center" style= "font-size: 13px;">
+                          <thead>
+                              <tr>
+                                  <td>한글명</td>
+                                  <td>현재가</td>
+                                  <td>전일대비</td>
+                              </tr>
+                          </thead>
+                          <tbody>
+                          </tbody>
+                      </table>
+                      <br /><br /><br />
+                      <div id='tmp2'>
+                  
+                      </div>
+                    </div>
             </div>
-            <div class="table-responsive">
-              <table class="table align-items-center ">
-                <tbody>
-                  <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg" alt="symbol" width="25" height="25">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">심볼:</p>
-                          <h6 class="text-sm mb-0">XBTUSD.P</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">현재가:</p>
-                        <h6 class="text-sm mb-0">31469.0 USD</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">체인지:</p>
-                        <h6 class="text-sm mb-0">-2.0</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">변동%:</p>
-                        <h6 class="text-sm mb-0">-0.01%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                      <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg" alt="symbol" width="25" height="25">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">심볼:</p>
-                          <h6 class="text-sm mb-0">XBTUSD.P</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">현재가:</p>
-                        <h6 class="text-sm mb-0">31469.0 USD</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">체인지:</p>
-                        <h6 class="text-sm mb-0">-2.0</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">변동%:</p>
-                        <h6 class="text-sm mb-0">-0.01%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                   <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg" alt="symbol" width="25" height="25">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">심볼:</p>
-                          <h6 class="text-sm mb-0">XBTUSD.P</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">현재가:</p>
-                        <h6 class="text-sm mb-0">31469.0 USD</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">체인지:</p>
-                        <h6 class="text-sm mb-0">-2.0</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">변동%:</p>
-                        <h6 class="text-sm mb-0">-0.01%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                   <tr>
-                    <td class="w-30">
-                      <div class="d-flex px-2 py-1 align-items-center">
-                        <div>
-                          <img src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC--big.svg" alt="symbol" width="25" height="25">
-                        </div>
-                        <div class="ms-4">
-                          <p class="text-xs font-weight-bold mb-0">심볼:</p>
-                          <h6 class="text-sm mb-0">XBTUSD.P</h6>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">현재가:</p>
-                        <h6 class="text-sm mb-0">31469.0 USD</h6>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="text-center">
-                        <p class="text-xs font-weight-bold mb-0">체인지:</p>
-                        <h6 class="text-sm mb-0">-2.0</h6>
-                      </div>
-                    </td>
-                    <td class="align-middle text-sm">
-                      <div class="col text-center">
-                        <p class="text-xs font-weight-bold mb-0">변동%:</p>
-                        <h6 class="text-sm mb-0">-0.01%</h6>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-
-          <br>
-          
+                    <br>
+  
           <!-- 뉴스 -->
-          <div class="card-header pb-0 p-3 px-0">
-           <div class="card ">
-             <div class="card-header pb-0 p-3">
-               <div class="d-flex justify-content-between">
-                 <h6 class="mb-2">뉴스</h6>
-               </div>
-              </div>
-                <div class="table-responsive"></div>
-                  <table class="table align-items-center ">
-                    <tr class="w-30 px-2">
-                      <td>고주진바보</td>
-                    </tr>
-                    <tr class="w-30 px-2">  
-                      <td>고주진바보</td>
-                    </tr>
-                    <tr class="w-30 px-2">  
-                      <td>고주진바보</td>
-                    </tr>
-                    <tr class="w-30 px-2"> 
-                      <td>고주진바보</td>
-                    </tr> 
-                  </table>
-                </div>
+           <div class="card-header pb-0 p-3 px-0">
+                        <div class="card">
+                            <div class="card-header pb-0 p-3">
+                                <h4 class=text-center>📰뉴스</h4>
+                                <div style="height: 200px; overflow-y: scroll;">
+                                    <table class="table table-striped text-lg">
+                                        <tbody>
+                                            <tr th:each="news, iterStat : ${newsList}">
+                                                <td>
+                                                    <div class="news-item">
+                                                        <a th:href="${news.newsUrl}" th:text="${news.newsTitle}" target="_blank"></a>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                
              </div>
            </div>

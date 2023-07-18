@@ -1,4 +1,4 @@
-package com.test.entitiy;
+package com.test.google;
 
 import java.util.HashMap;
 import java.util.Map;

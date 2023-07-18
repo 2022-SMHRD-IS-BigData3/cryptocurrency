@@ -1,4 +1,4 @@
-package com.test.entitiy;
+package com.test.google;
 
 import lombok.Builder;
 import lombok.Data;

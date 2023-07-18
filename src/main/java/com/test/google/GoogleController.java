@@ -1,4 +1,4 @@
-package com.test.controller;
+package com.test.google;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -19,10 +19,6 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
-import com.test.entitiy.ConfigUtils;
-import com.test.entitiy.GoogleLoginDto;
-import com.test.entitiy.GoogleLoginRequest;
-import com.test.entitiy.GoogleLoginResponse;
 
 @Controller
 @RequestMapping(value = "/google")

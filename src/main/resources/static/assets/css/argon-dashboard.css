@@ -10723,6 +10723,11 @@ fieldset:disabled .btn {
   border-radius: 0.75rem !important;
 }
 
+.rounded-4 {
+	border-radius: 100% !important;
+	 border : 1px;
+}
+
 .rounded-circle,
 .avatar.rounded-circle img {
   border-radius: 50% !important;
