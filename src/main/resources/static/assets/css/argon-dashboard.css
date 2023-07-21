@@ -10580,7 +10580,7 @@ fieldset:disabled .btn {
 }
 
 .bg-primary {
-  background-color: #5e72e4 !important;
+  background-color: #BB2649 !important;
 }
 
 .bg-secondary {
@@ -10624,7 +10624,7 @@ fieldset:disabled .btn {
 }
 
 .bg-gray-100 {
-  background-color: #f8f9fa !important;
+  background-color: #f8f9fa  !important;
 }
 
 .bg-gray-200 {
@@ -22536,7 +22536,7 @@ hr.horizontal.gray-light {
   top: 0;
   bottom: 0;
   width: 100%;
-  max-width: 15.625rem !important;
+  max-width: 22.625rem !important;
   overflow-y: auto;
   padding: 0;
   box-shadow: none;
@@ -23273,7 +23273,7 @@ hr.horizontal.gray-light {
   }
 
   .sidenav.fixed-start+.main-content {
-    margin-left: 17.125rem;
+    margin-left: 24.125rem;
   }
 
   .sidenav.fixed-end+.main-content {
@@ -23294,7 +23294,7 @@ hr.horizontal.gray-light {
 }
 
 .sidenav-header {
-  height: 4.875rem;
+  height: 7rem;
 }
 
 .sidenav-footer .card.card-background:after {
@@ -25084,6 +25084,9 @@ p {
   font-weight: 700;
 }
 
+.text-xl{
+	font-size : 1.25rem;
+}
 .text-2xl {
   font-size: 1.5rem;
 }
