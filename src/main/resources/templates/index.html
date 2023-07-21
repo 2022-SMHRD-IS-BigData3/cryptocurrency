@@ -268,11 +268,12 @@ function changeStarColor(event) {
         </li>
         
         <li class="nav-item">
-          <a class="nav-link " href="signIn">
+          <a class="nav-link " th:attr="href=|${user != null ? '/' : 'signIn'}|">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1 text-xl">Sign In</span>
+            <span th:if="${user != null}" class="nav-link-text ms-1 text-xl">log out</span>
+			<span th:unless="${user != null}" class="nav-link-text ms-1 text-xl">Sign in</span>
           </a>
         </li>
         <li class="nav-item">
@@ -300,8 +301,10 @@ function changeStarColor(event) {
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
+              <form action = "search" method="get">
               <span class="input-group-text text-body" style="width: 50px;"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
+              <input type="text" id="searchCoin" name="cname" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
+            </form>
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">

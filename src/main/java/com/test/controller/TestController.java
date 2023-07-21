@@ -20,7 +20,7 @@ public class TestController {
 		
 		return "test";
 	}
-	@RequestMapping("/main")
+	@RequestMapping("/")
 	public String main() {
 		
 		return "index";
@@ -43,14 +43,7 @@ public class TestController {
 		
 		return "sign-in";
 	}
-	@RequestMapping(value="/signIn", method =RequestMethod.POST)
-	public String signin(String uid, String upw, RedirectAttributes rttr) throws Exception{
-		tbl_user user = repository.findUserByUidAndUpw(uid, upw);
-		//Scanner sc = new Scanner(System.in);
-		//System.out.println("DB값" + user);
-		rttr.addFlashAttribute("user", user);
-		return "redirect:/";
-	}
+
 	
 	
 	
