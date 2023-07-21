@@ -16,7 +16,7 @@ public class NewsController {
     @GetMapping("/")
     public String getNews(Model model) {
         List<News> newsList = newsRepository.findAll();
-        System.out.println(newsList + "들어오나");
+        //System.out.println(newsList + "들어오나");
         model.addAttribute("newsList", newsList);
         return "index";
     }
