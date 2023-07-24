@@ -23,7 +23,7 @@ public class TestController {
 	@RequestMapping("/")
 	public String main() {
 		
-		return "index";
+		return "start";
 	}
 	@RequestMapping("/signUp")
 	public String signup(){
@@ -35,15 +35,17 @@ public class TestController {
 		repository.save(vo);
 		return "redirect:/";
 	}
-	
-	
-	
 	@RequestMapping("/signIn")
 	public String signin(){
 		
 		return "sign-in";
 	}
-
+	@RequestMapping("/start")
+	public String start() {
+		
+		return "start";
+	}
+	
 	
 	
 	
