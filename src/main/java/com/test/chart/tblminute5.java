@@ -31,5 +31,6 @@ public class tblminute5 {
     private Integer m5_max;
     private Integer m5_min;
     private Integer m5_end;
+    private Integer volume;
 
 }

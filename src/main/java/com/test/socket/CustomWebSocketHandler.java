@@ -77,6 +77,7 @@ public class CustomWebSocketHandler implements WebSocketHandler {
         double closePrice = klineNode.get("c").asDouble();
         double highPrice = klineNode.get("h").asDouble();
         double lowPrice = klineNode.get("l").asDouble();
+        double volume = klineNode.get("v").asDouble();
         long timestampMillis = klineNode.get("t").asLong();
         Timestamp timestamp = new Timestamp(timestampMillis);
         
@@ -85,6 +86,7 @@ public class CustomWebSocketHandler implements WebSocketHandler {
         System.out.println("High Price: " + highPrice);
         System.out.println("Low Price: " + lowPrice);
         System.out.println("Timestamp: " + timestamp);
+        System.out.println("Volume: " + volume);
     }
 
     private void saveCandleData(JsonNode klineNode) {
@@ -94,8 +96,9 @@ public class CustomWebSocketHandler implements WebSocketHandler {
         double lowPrice = klineNode.get("l").asDouble();
         long timestampMillis = klineNode.get("t").asLong();
         Timestamp timestamp = new Timestamp(timestampMillis);
+        double volume = klineNode.get("v").asDouble();
         
-        String sql = "INSERT INTO tblminute5 (m5_start, m5_end, m5_max, m5_min, timestamp) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tblminute5 (m5_start, m5_end, m5_max, m5_min, timestamp, volume) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password);
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -105,6 +108,7 @@ public class CustomWebSocketHandler implements WebSocketHandler {
             statement.setDouble(3, highPrice);
             statement.setDouble(4, lowPrice);
             statement.setTimestamp(5, timestamp);
+            statement.setDouble(6, volume);
             statement.executeUpdate();
 
         } catch (SQLException e) {
