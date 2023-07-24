@@ -2,6 +2,7 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.28.3/dist/apexcharts.min.css">
   <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.0/dist/apexcharts.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <meta charset="utf-8" />
@@ -751,96 +752,70 @@ function changeStarColor(event) {
   <script src="./assets/js/plugins/chartjs.min.js"></script>
   
 <script>
-var options = {
-		  series: [{
-		    data: [] // Leave this empty for now, we'll populate it later
-		  }],
-		  chart: {
-		    type: 'candlestick',
-		    height: 550
-		  },
-		  title: {
-		    text: 'CandleStick Chart',
-		    align: 'left'
-		  },
-		  xaxis: {
-		    type: 'datetime'
-		  },
-		  yaxis: {
-		    tooltip: {
-		      enabled: true
-		    }
-		  }
-		};
+    var options = {
+      series: [{
+        data: [] // Leave this empty for now, we'll populate it later
+      }],
+      chart: {
+        type: 'candlestick',
+        height: 550
+      },
+      title: {
+        text: 'Candlestick Chart',
+        align: 'left'
+      },
+      xaxis: {
+        type: 'datetime'
+      },
+      yaxis: {
+        tooltip: {
+          enabled: true
+        }
+      }
+    };
 
-		var chart = new ApexCharts(document.querySelector("#chart"), options);
-		chart.render();
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    chart.render();
 
-		function fetchDataAndUpdateChart() {
-		  // Fetch historical data from the server using AJAX
-		  $.ajax({
-		    url: "http://localhost:8098/chart", // Update the URL with the correct endpoint for historical data
-		    method: "GET", // Use GET method to fetch historical data
-		    dataType: "json",
-		    success: function (historicalData) {
-		      // Process the fetched historical data and update the chart
-		      var seriesData = historicalData.map(function (item) {
-		        return {
-		          x: new Date(item.timestamp),
-		          y: [item.m5_start, item.m5_max, item.m5_min, item.m5_end]
-		        };
-		      });
+    function fetchDataAndUpdateChart() {
+      // Calculate the timestamp for 7 hours ago
+      var sevenHoursAgo = new Date().getTime() - (7 * 60 * 60 * 1000);
 
-		      // Update the series data in the chart
-		      chart.updateSeries([{
-		        data: seriesData
-		      }]);
-		    },
-		    error: function (xhr, textStatus, errorThrown) {
-		      console.error("Failed to fetch historical data from the API.");
-		      console.error("Status: " + textStatus);
-		      console.error("Error: " + errorThrown);
-		    }
-		  });
+      // Fetch historical data from the server using AJAX
+      $.ajax({
+        url: "http://localhost:8098/chart", // Update the URL with the correct endpoint for historical data
+        method: "GET", // Use GET method to fetch historical data
+        dataType: "json",
+        success: function (historicalData) {
+          // Filter the fetched historical data for the last 7 hours
+          var seriesData = historicalData.filter(function (item) {
+            return new Date(item.timestamp) >= sevenHoursAgo;
+          }).map(function (item) {
+            return {
+              x: new Date(item.timestamp),
+              y: [item.m5_start, item.m5_max, item.m5_min, item.m5_end]
+            };
+          });
 
-		  // Fetch latest data from the server using AJAX
-		  $.ajax({
-		    url: "http://localhost:8098/chart", // Update the URL with the correct endpoint for latest data
-		    method: "GET", // Use GET method to fetch latest data
-		    dataType: "json",
-		    success: function (latestData) {
-		      // Process the fetched latest data and update the chart
-		      var latestDataPoint = {
-		        x: new Date(latestData.timestamp),
-		        y: [latestData.m5_start, latestData.m5_max, latestData.m5_min, latestData.m5_end]
-		      };
+          // Update the series data in the chart
+          chart.updateSeries([{
+            data: seriesData
+          }]);
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          console.error("Failed to fetch historical data from the API.");
+          console.error("Status: " + textStatus);
+          console.error("Error: " + errorThrown);
+        }
+      });
+    }
 
-		      // Get the existing data in the chart
-		      var existingData = chart.w.config.series[0].data;
+    // Call the function to fetch and update data on the chart initially
+    fetchDataAndUpdateChart();
 
-		      // Add the latest data point to the existing data
-		      existingData.push(latestDataPoint);
-
-		      // Update the series data in the chart
-		      chart.updateSeries([{
-		        data: existingData
-		      }]);
-		    },
-		    error: function (xhr, textStatus, errorThrown) {
-		      console.error("Failed to fetch latest data from the API.");
-		      console.error("Status: " + textStatus);
-		      console.error("Error: " + errorThrown);
-		    }
-		  });
-		}
-
-		// Call the function to fetch and update data on the chart initially
-		fetchDataAndUpdateChart();
-
-		// Periodically fetch and update latest data on the chart every 10 seconds (adjust the interval as needed)
-		setInterval(fetchDataAndUpdateChart, 10000); // 10000 milliseconds = 10 seconds 
-
-</script>
+    // Periodically fetch and update latest data on the chart every 10 seconds (adjust the interval as needed)
+    setInterval(fetchDataAndUpdateChart, 10000); // 10000 milliseconds = 10 seconds 
+  </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
