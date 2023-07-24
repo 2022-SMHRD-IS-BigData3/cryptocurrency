@@ -14,7 +14,7 @@ public class NewsController {
     }
 
  // 뉴스의 전체를 가져오는 컨트롤러
-    @GetMapping("/")
+    @GetMapping("/main")
     public String getNews(Model model) {
         List<News> newsList = newsRepository.findAll();
         //System.out.println(newsList + "들어오나");
