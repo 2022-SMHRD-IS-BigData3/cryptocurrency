@@ -30,7 +30,7 @@ public class LoginController {
 	    // 페이지로 user 넘기기
 	    rttr.addFlashAttribute("user", user);
 
-	    return "redirect:/";
+	    return "redirect:/main";
 	}
 
 

@@ -109,7 +109,6 @@
                     $("#table_ticker > tbody > tr").remove();
                     for (let i = 0; i < tickers.length; i++) {
 		            	let rowHtml = "<tr>";
-		            	rowHtml += "<td><button class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button></td>";
 		            	rowHtml += "<td>" + arr_korean_name[i].replace("코인", "").replace("토큰", "") + "</td>";
 		                rowHtml += "<td>" + comma(tickers[i].trade_price) + "</td>";
 		                let changeRate = (tickers[i].signed_change_rate * 100).toFixed(2);
@@ -275,11 +274,12 @@ function changeStarColor(event) {
         </li>
         
         <li class="nav-item">
-          <a class="nav-link " href="signIn">
+          <a class="nav-link "  th:attr="href=|${user != null ? '/' : 'signIn'}|">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1 text-xl">Sign In</span>
+            <span th:if="${user != null}" class="nav-link-text ms-1 text-xl" >log out</span>
+			<span th:unless="${user != null}" class="nav-link-text ms-1 text-xl" >Sign in</span>
           </a>
         </li>
         <li class="nav-item">
@@ -315,15 +315,16 @@ function changeStarColor(event) {
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div class="input-group">
+              <form action = "search" method="get">
               <span class="input-group-text text-body" style="width: 50px;"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
+              <input type="text" name="cname" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
+              </form>
             </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
               <a class="nav-link text-white font-weight-bold px-0 " th:attr="href=|${user != null ? '/' : 'signIn'}|">
                 <i class="fa fa-user me-sm-1"></i>
-                <!-- <span th:text="${user != null ? 'Sign out' : 'Sign in'}" class="d-sm-inline"></span> -->
                 <span th:if="${user != null}" class="d-sm-inline" style="font-size:13px">log out</span>
 				<span th:unless="${user != null}" class="d-sm-inline" style="font-size:13px">Sign in</span>
               </a>
@@ -432,7 +433,11 @@ function changeStarColor(event) {
              <div class="col-8">
                <div class="numbers">
                  <h5 class="font-weight-bolder">
+                   <form action='favorite' method='post'>
+                 	<input type='hidden' name='ccd' value='ETHUSDT'>  <!-- 종목id -->
+                   <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol1"></span>
+                 </form>
                  </h5>
                  <p class="mb-0">
                    <span class=" text-2xl font-weight-bolder price1"></span>
@@ -458,7 +463,11 @@ function changeStarColor(event) {
              <div class="col-8">
                <div class="numbers">
                  <h5 class="font-weight-bolder">
+                   <form action='favorite' method='post'>
+                 	<input type='hidden' name='ccd' value='ADAUSDT'>  <!-- 종목id -->
+                   <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol2"></span>
+                   </form>
                  </h5>
                  <p class="mb-0">
                    <span class=" text-2xl font-weight-bolder price2"></span>
@@ -484,7 +493,11 @@ function changeStarColor(event) {
              <div class="col-8">
                <div class="numbers">
                  <h5 class="font-weight-bolder">
+                   <form action='favorite' method='post'>
+                 	<input type='hidden' name='ccd' value='BTCUSDT'>  <!-- 종목id -->
+                   <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol3"></span>
+                   </form>
                  </h5>
                  <p class="mb-0">
                    <span class=" text-2xl font-weight-bolder price3"></span>
@@ -510,7 +523,11 @@ function changeStarColor(event) {
              <div class="col-8">
                <div class="numbers">
                  <h5 class="font-weight-bolder">
+                   <form action='favorite' method='post'>
+                 	<input type='hidden' name='ccd' value='BNBUSDT'>  <!-- 종목id -->
+                   <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol4"></span>
+                   </form>
                  </h5>
                  <p class="mb-0">
                    <span class=" text-2xl font-weight-bolder price4"></span>
@@ -536,7 +553,11 @@ function changeStarColor(event) {
              <div class="col-8">
                <div class="numbers">
                  <h5 class="font-weight-bolder">
+                   <form action='favorite' method='post'>
+                 	<input type='hidden' name='ccd' value='SOLUSDT'>  <!-- 종목id -->
+                   <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol5"></span>
+                   </form>
                  </h5>
                  <p class="mb-0">
                    <span class=" text-2xl font-weight-bolder price5"></span>
@@ -562,7 +583,11 @@ function changeStarColor(event) {
              <div class="col-8">
                <div class="numbers">
                  <h5 class="font-weight-bolder">
+                   <form action='favorite' method='post'>
+                 	<input type='hidden' name='ccd' value='MATICUSDT'>  <!-- 종목id -->
+                   <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol6"></span>
+                   </form>
                  </h5>
                  <p class="mb-0">
                    <span class=" text-2xl font-weight-bolder price6"></span>
@@ -611,7 +636,6 @@ function changeStarColor(event) {
                       <table id="table_ticker" class="table table-hover text-center" style= "font-size: 13px;">
                           <thead>
                               <tr>
-                              	  <td>즐찾</td>
                                   <td>종목명</td>
                                   <td>현재가</td>
                                   <td>전일대비</td>
