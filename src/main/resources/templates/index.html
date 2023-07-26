@@ -795,6 +795,9 @@ function changeStarColor(event) {
 <script>
   // Options for the Candlestick Chart
   var candlestickOptions = {
+		  grid: {
+		        show: false // Hide the background grid lines
+		      },
     series: [
       {
         name: "Candlestick",
@@ -823,7 +826,8 @@ function changeStarColor(event) {
           month: "MMM 'yy",
           day: 'dd MMM',
           hour: 'HH:mm'
-        }
+        },
+        show: false // Hide x-axis labels for the Candlestick Chart
       }
     },
     yaxis: {
@@ -857,6 +861,9 @@ function changeStarColor(event) {
 
   // Options for the Line Chart
   var lineOptions = {
+		  grid: {
+		        show: false // Hide the background grid lines
+		      },
     series: [
       {
         name: "Line Series",
@@ -881,24 +888,28 @@ function changeStarColor(event) {
           month: "MMM 'yy",
           day: 'dd MMM',
           hour: 'HH:mm'
-        }
+        },
+        show: false // Hide x-axis labels for the Candlestick Chart
       }
     },
     yaxis: {
+    	
       seriesName: "Line Series",
       tooltip: {
         enabled: false
       },
       min: 29070, // Set the minimum value for the y-axis
       max: 29600, // Set the maximum value for the y-axis
-      tickAmount: 6 // Adjust the number of ticks on the y-axis as needed
+      tickAmount: 6, // Adjust the number of ticks on the y-axis as needed
+      show: false
     },
+    
     dataLabels: {
-      enabled: false // Disable data labels (values on top of the line)
+      enabled: false, // Disable data labels (values on top of the line)
     },
     markers: {
       size: 0 // Hide data point markers on the line chart
-    }
+    },
   };
 
   // Create a new instance for the Line Chart
@@ -907,6 +918,9 @@ function changeStarColor(event) {
 
   // Options for the Volume Chart
   var volumeOptions = {
+		  grid: {
+		        show: false // Hide the background grid lines
+		      },
     series: [
       {
         name: "Volume",
