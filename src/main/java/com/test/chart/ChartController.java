@@ -35,4 +35,17 @@ public class ChartController {
         rttr.addAttribute("price", savedData);
         return "redirect:/";
     }
+    
+    
+    @Autowired
+    PredictionsRepository predictions;
+    
+    @GetMapping("/predictions")
+    public @ResponseBody List<PredictionEntity> getPredictionsData() {
+        // Fetch all predictions data from the database using the custom method in PredictionsRepository
+        List<PredictionEntity> predictionsData = predictions.findAll();
+        return predictionsData;
+    }
+    
+    
 }

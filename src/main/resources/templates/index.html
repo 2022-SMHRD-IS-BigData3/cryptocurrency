@@ -623,7 +623,9 @@ function changeStarColor(event) {
             </div>
             <div class="card-body p-3">
               <div class="chart">
-                <div id="chart"></div>
+				 <div id="candlestickChart"></div>
+ 				 <div id="volumeChart"></div>
+ 				 <div id="lineChart"></div>
               </div>
             </div>
           </div>
@@ -791,125 +793,303 @@ function changeStarColor(event) {
   <script src="./assets/js/plugins/chartjs.min.js"></script>
   
 <script>
-    var options = {
-      series: [
-        {
-          name: "Candlestick",
-          type: "candlestick",
-          data: [] // Leave this empty for now, we'll populate it later
-        },
-        {
-          name: "Line Series",
-          type: "line",
-          data: [] // Leave this empty for now, we'll populate it later
-        }
-      ],
-      chart: {
-        height: 550,
-        animations: {
-          enabled: false // Disable animations for better performance
-        }
-      },
-      title: {
-        text: 'Candlestick and Line Chart',
-        align: 'left'
-      },
-      xaxis: {
-        type: 'datetime',
-        labels: {
-          datetimeFormatter: {
-            year: 'yyyy',
-            month: "MMM 'yy",
-            day: 'dd MMM',
-            hour: 'HH:mm'
-          }
-        },
-        range: 12 * 60 * 60 * 1000 // Set the initial x-axis range to 12 hours (in milliseconds)
-      },
-      yaxis: {
-        tooltip: {
-          enabled: false
-        }
-      },
-      dataLabels: {
-        enabled: false // Disable data labels (values on top of the candles)
-      },
-      markers: {
-        size: 0 // Hide data point markers on the line chart
-      },
-      stroke: {
-        width: 2 // Set the line chart stroke width
+  // Options for the Candlestick Chart
+  var candlestickOptions = {
+    series: [
+      {
+        name: "Candlestick",
+        type: "candlestick",
+        data: [] // Leave this empty for now, we'll populate it later
       }
-    };
-
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
-
-    function fetchDataAndUpdateChart(start, end) {
-      // Fetch all historical data from the server using AJAX
-      $.ajax({
-        url: "http://localhost:8098/chart", // Update the URL with the correct endpoint for historical data
-        method: "GET", // Use GET method to fetch historical data
-        dataType: "json",
-        data: {
-          start: start,
-          end: end
-        },
-        success: function (historicalData) {
-          // Sort the data in ascending order based on the timestamp
-          historicalData.sort(function (a, b) {
-            return new Date(a.timestamp) - new Date(b.timestamp);
-          });
-
-          // Map the fetched data to the format required by ApexCharts for the candlestick series
-          var candlestickSeriesData = historicalData.map(function (item) {
-            return {
-              x: new Date(item.timestamp),
-              y: [parseFloat(item.m5_start), parseFloat(item.m5_max), parseFloat(item.m5_min), parseFloat(item.m5_end)]
-            };
-          });
-
-          // Map the fetched data to the format required by ApexCharts for the line series
-          var lineSeriesData = historicalData.map(function (item) {
-            return {
-              x: new Date(item.timestamp),
-              y: parseFloat(item.m5_start)
-            };
-          });
-
-          // Update the series data for both candlestick and line chart in the chart
-          chart.updateSeries([
-            {
-              name: "Candlestick",
-              data: candlestickSeriesData // For the candlestick chart
-            },
-            {
-              name: "Line Series",
-              data: lineSeriesData // For the line chart
-            }
-          ]);
-        },
-        error: function (xhr, textStatus, errorThrown) {
-          console.error("Failed to fetch historical data from the API.");
-          console.error("Status: " + textStatus);
-          console.error("Error: " + errorThrown);
+    ],
+    chart: {
+      height: 400,
+      animations: {
+        enabled: false // Disable animations for better performance
+      },
+      toolbar: {
+        autoSelected: 'zoom' // Display the zooming buttons on the chart
+      }
+    },
+    title: {
+      text: 'Candlestick Chart',
+      align: 'left'
+    },
+    xaxis: {
+      type: 'datetime',
+      labels: {
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: "MMM 'yy",
+          day: 'dd MMM',
+          hour: 'HH:mm'
         }
-      });
+      }
+    },
+    yaxis: {
+      seriesName: "Candlestick",
+      tooltip: {
+        enabled: false
+      },
+      min: 29070, // Set the minimum value for the y-axis
+      max: 29600, // Set the maximum value for the y-axis
+      tickAmount: 6 // Adjust the number of ticks on the y-axis as needed
+    },
+    dataLabels: {
+      enabled: false // Disable data labels (values on top of the candles)
+    },
+    markers: {
+      size: 0 // Hide data point markers on the candlestick chart
+    },
+    candlestick: {
+      wicks: {
+        enabled: true,
+        strokeColors: 'transparent',
+        fillColors: 'transparent'
+      },
+      candlestickWidth: 2 // Set the width of the candlesticks to 2 pixels (you can adjust this value as desired)
     }
+  };
 
-    // Fetch and update initial data on the chart (last 12 hours)
-    var currentTimestamp = new Date().getTime();
-    var twelveHoursAgo = currentTimestamp - (12 * 60 * 60 * 1000);
-    fetchDataAndUpdateChart(twelveHoursAgo, currentTimestamp);
+  // Create a new instance for the Candlestick Chart
+  var candlestickChart = new ApexCharts(document.querySelector("#candlestickChart"), candlestickOptions);
+  candlestickChart.render();
 
-    // Function to handle the x-axis range update event
-    chart.w.config.xaxis.rangeUpdateHandler = function ({ min, max }) {
-      // Fetch data for the new range only if the end date is before 12 hours ago
-      if (max <= currentTimestamp - (12 * 60 * 60 * 1000)) {
-        fetchDataAndUpdateChart(min, max);
+  // Options for the Line Chart
+  var lineOptions = {
+    series: [
+      {
+        name: "Line Series",
+        type: "line",
+        data: [] // Leave this empty for now, we'll populate it later
       }
-    };
-  </script>
+    ],
+    chart: {
+      height: 250,
+      animations: {
+        enabled: false // Disable animations for better performance
+      },
+      toolbar: {
+        show: false // Hide toolbar for the line chart
+      }
+    },
+    xaxis: {
+      type: 'datetime',
+      labels: {
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: "MMM 'yy",
+          day: 'dd MMM',
+          hour: 'HH:mm'
+        }
+      }
+    },
+    yaxis: {
+      seriesName: "Line Series",
+      tooltip: {
+        enabled: false
+      },
+      min: 29070, // Set the minimum value for the y-axis
+      max: 29600, // Set the maximum value for the y-axis
+      tickAmount: 6 // Adjust the number of ticks on the y-axis as needed
+    },
+    dataLabels: {
+      enabled: false // Disable data labels (values on top of the line)
+    },
+    markers: {
+      size: 0 // Hide data point markers on the line chart
+    }
+  };
+
+  // Create a new instance for the Line Chart
+  var lineChart = new ApexCharts(document.querySelector("#lineChart"), lineOptions);
+  lineChart.render();
+
+  // Options for the Volume Chart
+  var volumeOptions = {
+    series: [
+      {
+        name: "Volume",
+        type: "bar",
+        data: [] // Leave this empty for now, we'll populate it later
+      }
+    ],
+    chart: {
+      height: 150,
+      animations: {
+        enabled: false // Disable animations for better performance
+      },
+      toolbar: {
+        show: false // Hide toolbar for the volume chart
+      }
+    },
+    xaxis: {
+      type: 'datetime',
+      labels: {
+        datetimeFormatter: {
+          year: 'yyyy',
+          month: "MMM 'yy",
+          day: 'dd MMM',
+          hour: 'HH:mm'
+        }
+      }
+    },
+    yaxis: [
+      {
+        opposite: false, // Move y-axis to the left side
+        min: 0, // Set the minimum value for the volume y-axis
+        max: 400, // Set the maximum value for the volume y-axis
+        tickAmount: 3 // Adjust the number of ticks on the y-axis as needed
+      }
+    ],
+    dataLabels: {
+      enabled: false // Disable data labels (values on top of the bars) for the volume chart
+    },
+    markers: {
+      size: 0 // Hide data point markers on the volume chart
+    }
+  };
+
+  // Create a new instance for the Volume Chart
+  var volumeChart = new ApexCharts(document.querySelector("#volumeChart"), volumeOptions);
+  volumeChart.render();
+
+  function fetchLineChartData(start, end) {
+    $.ajax({
+      url: "http://localhost:8098/predictions", // URL for line chart data (predictions)
+      method: "GET",
+      dataType: "json",
+      data: {
+        start: start,
+        end: end
+      },
+      success: function (lineData) {
+        // Sort the data in ascending order based on the timestamp
+        lineData.sort(function (a, b) {
+          return new Date(a.timestamp) - new Date(b.timestamp);
+        });
+
+        // Map the fetched data to the format required by ApexCharts for the line series
+        var lineSeriesData = lineData.map(function (item) {
+          return {
+            x: new Date(item.timestamp),
+            y: parseFloat(item.preprice)
+          };
+        });
+
+        // Update the line chart series data
+        lineChart.updateSeries([
+          {
+            name: "예측값",
+            data: lineSeriesData
+          }
+        ]);
+
+        // Set the x-axis range to fit the entire line chart data range
+        lineChart.updateOptions({
+          xaxis: {
+            min: lineData[0].timestamp,
+            max: lineData[lineData.length - 1].timestamp
+          }
+        });
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        console.error("Failed to fetch line chart data from the API.");
+        console.error("Status: " + textStatus);
+        console.error("Error: " + errorThrown);
+      }
+    });
+  }
+
+  function fetchChartData(start, end) {
+    $.ajax({
+      url: "http://localhost:8098/chart", // URL for historical data for the candlestick chart
+      method: "GET",
+      dataType: "json",
+      data: {
+        start: start,
+        end: end
+      },
+      success: function (historicalData) {
+        // Sort the data in ascending order based on the timestamp
+        historicalData.sort(function (a, b) {
+          return new Date(a.timestamp) - new Date(b.timestamp);
+        });
+
+        // Map the fetched data to the format required by ApexCharts for the candlestick series
+        var candlestickSeriesData = historicalData.map(function (item) {
+          return {
+            x: new Date(item.timestamp),
+            y: [parseFloat(item.m5_start), parseFloat(item.m5_max), parseFloat(item.m5_min), parseFloat(item.m5_end)]
+          };
+        });
+
+        // Map the fetched data to the format required by ApexCharts for the volume series
+        var volumeSeriesData = historicalData.map(function (item) {
+          return {
+            x: new Date(item.timestamp),
+            y: parseFloat(item.volume)
+          };
+        });
+
+        // Update the series data for both chart types in the chart
+        candlestickChart.updateSeries([
+          {
+            name: "Candlestick",
+            data: candlestickSeriesData // For the candlestick chart
+          }
+        ]);
+
+        volumeChart.updateSeries([
+          {
+            name: "Volume",
+            data: volumeSeriesData // For the volume chart
+          }
+        ]);
+
+        // Set the x-axis range to fit the entire data range
+        candlestickChart.updateOptions({
+          xaxis: {
+            min: historicalData[0].timestamp,
+            max: historicalData[historicalData.length - 1].timestamp
+          }
+        });
+
+        // Fetch and update line chart data
+        fetchLineChartData(start, end);
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        console.error("Failed to fetch historical data from the API.");
+        console.error("Status: " + textStatus);
+        console.error("Error: " + errorThrown);
+      }
+    });
+  }
+
+  var currentTimestamp = new Date().getTime();
+
+  // Fetch and update initial data on the charts (last 12 hours)
+  var twelveHoursAgo = currentTimestamp - 12 * 60 * 60 * 1000;
+  fetchChartData(twelveHoursAgo, currentTimestamp);
+
+  // Function to handle the x-axis range update event for both charts
+  function handleXAxisRangeUpdate({ min, max }) {
+    // Calculate the time difference between max and min in milliseconds
+    var timeDiff = max - min;
+
+    // Check if the time difference is greater than or equal to 12 hours
+    if (timeDiff >= 12 * 60 * 60 * 1000) {
+      // Fetch new data for the updated range
+      fetchChartData(min, max);
+    }
+  }
+
+  // Add event listener for the zoomed event on the Candlestick Chart
+  candlestickChart.on("zoomed", handleXAxisRangeUpdate);
+
+  // Add event listener for the zoomed event on the Volume Chart
+  volumeChart.on("zoomed", handleXAxisRangeUpdate);
+</script>
 
 
   <!-- Github buttons -->
