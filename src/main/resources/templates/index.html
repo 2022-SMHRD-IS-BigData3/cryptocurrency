@@ -144,7 +144,7 @@
       // Subscribe to the desired topic
       var subscribeMessage = JSON.stringify({
         method: 'SUBSCRIBE',
-        params: ['bnbusdt@kline_5m', 'btcusdt@kline_5m', 'ethusdt@kline_5m','solusdt@kline_1m','maticusdt@kline_1m','adausdt@kline_1m'],
+        params: ['bnbusdt@kline_5m', 'btcusdt@kline_5m', 'ethusdt@kline_5m','solusdt@kline_1m','bchusdt@kline_1m','ltcusdt@kline_1m'],
         id: 1
       });
       socket.send(subscribeMessage);
@@ -155,7 +155,7 @@
       }, 5 * 60 * 1000); // 5분(밀리초 단위)
     };
 
-    // WebSocket 메시지 수신 이벤트 처리
+ // WebSocket 메시지 수신 이벤트 처리
     socket.onmessage = function(event) {
       var message = JSON.parse(event.data);
       if (message && message.s && message.k) {
@@ -163,17 +163,17 @@
         var highPrice = message.k.h;
         var lowPrice = message.k.l;
 
-       
-
         // Symbol에 따라 적절한 요소에 데이터를 보여줌
         var symbolElement, priceElement;
         if (symbol === "ETHUSDT") {
           symbolElement = document.querySelector('.symbol1');
           priceElement = document.querySelector('.price1');
-        } else if (symbol === "ADAUSDT") {
+        } else if (symbol === "BCHUSDT") {
+          symbol = "BCHUSDT"; // ADA -> Bitcoin Cash로 변경
           symbolElement = document.querySelector('.symbol2');
           priceElement = document.querySelector('.price2');
         } else if (symbol === "BTCUSDT") {
+          symbol = "BTCUSDT"; 
           symbolElement = document.querySelector('.symbol3');
           priceElement = document.querySelector('.price3');
         } else if (symbol === "BNBUSDT") {
@@ -182,33 +182,37 @@
         } else if (symbol === "SOLUSDT") {
           symbolElement = document.querySelector('.symbol5');
           priceElement = document.querySelector('.price5');
-        } else if (symbol === "MATICUSDT") {
+        } else if (symbol === "LTCUSDT") {
+          symbol = "LTCUSDT"; // Matic -> Litecoin으로 변경
           symbolElement = document.querySelector('.symbol6');
           priceElement = document.querySelector('.price6');
         }
 
         if (symbolElement && priceElement) {
           symbolElement.textContent = symbol.replace('USDT', '/USDT');
-          var prevPrice = parseFloat(priceElement.textContent);
+          var prevPrice = parseFloat(priceElement.dataset.prevPrice);
           var change = parseFloat(highPrice) - prevPrice;
-
-          priceElement.textContent = parseFloat(highPrice).toFixed(2);
 
           // 이전 값과 비교하여 데이터 값이 증가했을 때에는 특정 색상 적용
           if (change > 0) {
-            priceElement.innerHTML += '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
+            priceElement.innerHTML = parseFloat(highPrice).toFixed(2) + '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
             priceElement.style.color = 'green'; // 증가한 경우의 색상
           } else if (change < 0) {
-            priceElement.innerHTML += '<span class="text-m font-weight-bolder"> (' + change.toFixed(2) + ')</span>';
+            priceElement.innerHTML = parseFloat(highPrice).toFixed(2) + '<span class="text-m font-weight-bolder"> (' + change.toFixed(2) + ')</span>';
             priceElement.style.color = 'red'; // 감소한 경우의 색상
           } else {
+            priceElement.innerHTML = parseFloat(highPrice).toFixed(2);
             priceElement.style.color = '#000000'; // 동일한 경우의 색상
           }
+
+          // 현재 가격을 다음에 사용하기 위해 데이터 속성에 저장
+          priceElement.dataset.prevPrice = highPrice;
         } else {
           console.error('요소를 찾을 수 없습니다.');
         }
       }
     };
+
 
     // WebSocket 연결이 닫혔을 때 실행되는 콜백 함수
     socket.onclose = function() {
@@ -314,12 +318,12 @@ function changeStarColor(event) {
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-              <form action = "search" method="get">
-              <span class="input-group-text text-body" style="width: 50px;"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" name="cname" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
-              </form>
-            </div>
+            <div style="display: flex; align-items: center;">
+			    <span class="input-group-text text-body" style="width: 40px;"><i class="fas fa-search"></i></span>
+			    <form action="search" method="get" style="display: flex; align-items: center;">
+			      <input type="text" name="cname" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
+			    </form>
+			  </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
@@ -421,7 +425,7 @@ function changeStarColor(event) {
       </div>
     </nav>
     <!-- End Navbar -->
-    <!-- 1~6위 종목들 -->
+   <!-- 1~6위 종목들 -->
     
     
     <div class="container-fluid py-4">
@@ -464,7 +468,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='ADAUSDT'>  <!-- 종목id -->
+                 	<input type='hidden' name='ccd' value='BCHUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol2"></span>
                    </form>
@@ -478,7 +482,7 @@ function changeStarColor(event) {
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCADA.svg" width="50" height="50">
+                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBCH.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -584,7 +588,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='MATICUSDT'>  <!-- 종목id -->
+                 	<input type='hidden' name='ccd' value='LTCUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol6"></span>
                    </form>
@@ -598,7 +602,7 @@ function changeStarColor(event) {
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img class ="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCMATIC.svg" width="50" height="50">
+                 <img class ="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCLTC.svg" width="50" height="50">
                </div>
              </div>
            </div>
