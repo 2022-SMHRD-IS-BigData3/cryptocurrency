@@ -825,6 +825,10 @@ function changeStarColor(event) {
   
 <script>
   // Options for the Candlestick Chart
+  var currentTimestamp = new Date().getTime();
+  
+  var sixHoursAgo = currentTimestamp - 6 * 60 * 60 * 1000;
+  
   var candlestickOptions = {
         grid: {
               show: false // Hide the background grid lines
@@ -859,14 +863,16 @@ function changeStarColor(event) {
           hour: 'HH:mm'
         },
         show: false // Hide x-axis labels for the Candlestick Chart
-      }
+      },
+      min: sixHoursAgo, // Set the minimum value for the x-axis to 6 hours ago
+      max: currentTimestamp
     },
     yaxis: {
       seriesName: "Candlestick",
       tooltip: {
         enabled: false
       },
-      min: 29070, // Set the minimum value for the y-axis
+      min: 28700, // Set the minimum value for the y-axis
       max: 29600, // Set the maximum value for the y-axis
       tickAmount: 6 // Adjust the number of ticks on the y-axis as needed
     },
@@ -921,7 +927,9 @@ function changeStarColor(event) {
           hour: 'HH:mm'
         },
         show: false // Hide x-axis labels for the Candlestick Chart
-      }
+      },
+      min: sixHoursAgo, // Set the minimum value for the x-axis to 6 hours ago
+      max: currentTimestamp
     },
     yaxis: {
        
@@ -929,7 +937,7 @@ function changeStarColor(event) {
       tooltip: {
         enabled: false
       },
-      min: 29070, // Set the minimum value for the y-axis
+      min: 28700, // Set the minimum value for the y-axis
       max: 29600, // Set the maximum value for the y-axis
       tickAmount: 6, // Adjust the number of ticks on the y-axis as needed
       show: true
@@ -977,7 +985,9 @@ function changeStarColor(event) {
           day: 'dd MMM',
           hour: 'HH:mm'
         }
-      }
+      },
+      min: sixHoursAgo, // Set the minimum value for the x-axis to 6 hours ago
+      max: currentTimestamp
     },
     yaxis: [
       {
@@ -1130,10 +1140,10 @@ function changeStarColor(event) {
   }
 
   // Add event listener for the zoomed event on the Candlestick Chart
-  candlestickChart.on("zoomed", handleXAxisRangeUpdate);
+  // candlestickChart.on("zoomed", handleXAxisRangeUpdate);
 
   // Add event listener for the zoomed event on the Volume Chart
-  volumeChart.on("zoomed", handleXAxisRangeUpdate);
+  // volumeChart.on("zoomed", handleXAxisRangeUpdate);
 </script>
 
 
