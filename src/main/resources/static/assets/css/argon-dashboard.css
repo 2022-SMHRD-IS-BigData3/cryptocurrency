@@ -75,6 +75,8 @@
   --bs-highlight-bg: #fcf8e3;
 }
 
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,700);
+
 *,
 *::before,
 *::after {
@@ -99,6 +101,7 @@ body {
   -webkit-text-size-adjust: 100%;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
+
 
 hr {
   margin: 1rem 0;
@@ -9306,6 +9309,7 @@ fieldset:disabled .btn {
 .my-3 {
   margin-top: 1rem !important;
   margin-bottom: 1rem !important;
+  font-size:14px;
 }
 
 .my-4 {
@@ -9472,6 +9476,7 @@ fieldset:disabled .btn {
 
 .mb-0 {
   margin-bottom: 0 !important;
+  font-size: 20px;
 }
 
 .mb-1 {
@@ -20854,7 +20859,9 @@ fieldset:disabled .btn {
 }
 
 .card .card-header {
+  background-color: rgba(255,255,255,0.2);
   padding: 1.5rem;
+  border-radius: 20%;
 }
 
 .card .card-body {
@@ -21460,6 +21467,11 @@ fieldset:disabled .btn {
 
 .fixed-plugin.show .card {
   right: 0;
+  background: aliceblue;
+/*   background: #25316D; */
+  color: black;
+  font-size: small;
+  border-radius: 3%;
 }
 
 .input-group {
@@ -22204,6 +22216,8 @@ hr.horizontal.gray-light {
   }
 
   hr.horizontal.dark {
+   	height: 6px;
+	position: relative;
     background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0));
   }
 }
@@ -24936,6 +24950,8 @@ p,
 p {
   line-height: 1.625;
   font-weight: 400;
+  font-size: 15px;
+  font-family: 'IAMAPLAYER';
 }
 
 .text-sans-serif {
