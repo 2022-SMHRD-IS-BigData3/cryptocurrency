@@ -484,7 +484,7 @@ function changeStarColor(event) {
               </a>
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0">
+              <a href="javascript:;" class="nav-link text-white p-0" onclick="myAlarm()">
                  <!-- 알림목록 -->
             <i th:if="${user == null}" th:remove="tag" class="fa fa-cog fixed-plugin-button-nav cursor-pointer" ></i>
             <i th:unless="${user == null}"  id="favorite" class="fa fa-cog fixed-plugin-button-nav cursor-pointer" ></i>
