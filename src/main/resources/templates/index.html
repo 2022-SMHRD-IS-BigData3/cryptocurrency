@@ -2,9 +2,12 @@
 <html lang="en">
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.28.3/dist/apexcharts.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts@3.28.3/dist/apexcharts.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.27.0/dist/apexcharts.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
@@ -38,7 +41,36 @@
     <!-- sockjs -->
    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.5.1/dist/sockjs.min.js"></script>
   <style>
-   	 .positive-change {
+      .chart-container {
+           position: relative;
+           display: flex;
+           flex-direction: column;
+         }
+         
+         .chart {
+           height: 250px; /* Adjust height as needed */
+         }
+         
+         .candlestick-and-line {
+           position: relative;
+           flex: 1;
+         }
+         
+         #volumeChart {
+           height: 100px; /* Adjust height of the volume chart */
+         }
+         
+         #lineChart {
+           position: absolute;
+           top: 0;
+           left: 0;
+           right: 0;
+           bottom: 0;
+         }
+     #lineChart .apexcharts-yaxis {
+        opacity: 0;
+      }
+       .positive-change {
             color: green;
             font-weight: bold;
         }
@@ -47,36 +79,36 @@
             font-weight: bold;
         }
         ::placeholder {
-  		 	font-size: 14px; 
- 		}
- 		.fa-search {
-		 	font-size: 20px; 
-		}
-		.fa-user {
-		    font-size: 17px; 
-		}
-		.fa-cog {
-		    font-size: 17px; 
-		}
-		.fa-bell {
-			font-size : 17px
-		}
-		#doyeon:hover {
-			transform: rotate( 720deg );
-		}
-		#heechan{
-			all: unset;
-		}
-		#heechan:hover{
-			background-color:#002ead;
-      		transition: 0.7s;
-		}
-		.icon {
-			  font-size: 40px;
-		}
-		.nav-link-text {
-		  font-size: 15px;
-		}
+            font-size: 14px; 
+       }
+       .fa-search {
+          font-size: 20px; 
+      }
+      .fa-user {
+          font-size: 17px; 
+      }
+      .fa-cog {
+          font-size: 17px; 
+      }
+      .fa-bell {
+         font-size : 17px
+      }
+      #doyeon:hover {
+         transform: rotate( 720deg );
+      }
+      #heechan{
+         all: unset;
+      }
+      #heechan:hover{
+         background-color:#002ead;
+            transition: 0.7s;
+      }
+      .icon {
+           font-size: 40px;
+      }
+      .nav-link-text {
+        font-size: 15px;
+      }
    </style>
 
 
@@ -105,15 +137,15 @@
                 }).done(function (tickers) {
                     $("#table_ticker > tbody > tr").remove();
                     for (let i = 0; i < tickers.length; i++) {
-		            	let rowHtml = "<tr>";
-		            	rowHtml += "<td>" + arr_korean_name[i].replace("코인", "").replace("토큰", "") + "</td>";
-		                rowHtml += "<td>" + comma(tickers[i].trade_price) + "</td>";
-		                let changeRate = (tickers[i].signed_change_rate * 100).toFixed(2);
-		                let changeClass = changeRate >= 0 ? "positive-change" : "negative-change";
-		                let changeText = changeRate >= 0 ? "+" + changeRate : changeRate;
-		                rowHtml += "<td class='" + changeClass + "'>" + changeText + "</td>";
-		                rowHtml += "</tr>";
-		                $("#table_ticker > tbody:last").append(rowHtml);
+                     let rowHtml = "<tr>";
+                     rowHtml += "<td>" + arr_korean_name[i].replace("코인", "").replace("토큰", "") + "</td>";
+                      rowHtml += "<td>" + comma(tickers[i].trade_price) + "</td>";
+                      let changeRate = (tickers[i].signed_change_rate * 100).toFixed(2);
+                      let changeClass = changeRate >= 0 ? "positive-change" : "negative-change";
+                      let changeText = changeRate >= 0 ? "+" + changeRate : changeRate;
+                      rowHtml += "<td class='" + changeClass + "'>" + changeText + "</td>";
+                      rowHtml += "</tr>";
+                      $("#table_ticker > tbody:last").append(rowHtml);
                     }
                 })
             })
@@ -141,7 +173,7 @@
       // Subscribe to the desired topic
       var subscribeMessage = JSON.stringify({
         method: 'SUBSCRIBE',
-        params: ['bnbusdt@kline_5m', 'btcusdt@kline_5m', 'ethusdt@kline_5m','solusdt@kline_1m','maticusdt@kline_1m','adausdt@kline_1m'],
+        params: ['bnbusdt@kline_5m', 'btcusdt@kline_5m', 'ethusdt@kline_5m','solusdt@kline_1m','bchusdt@kline_1m','ltcusdt@kline_1m'],
         id: 1
       });
       socket.send(subscribeMessage);
@@ -152,7 +184,7 @@
       }, 5 * 60 * 1000); // 5분(밀리초 단위)
     };
 
-    // WebSocket 메시지 수신 이벤트 처리
+ // WebSocket 메시지 수신 이벤트 처리
     socket.onmessage = function(event) {
       var message = JSON.parse(event.data);
       if (message && message.s && message.k) {
@@ -160,17 +192,17 @@
         var highPrice = message.k.h;
         var lowPrice = message.k.l;
 
-       
-
         // Symbol에 따라 적절한 요소에 데이터를 보여줌
         var symbolElement, priceElement;
         if (symbol === "ETHUSDT") {
           symbolElement = document.querySelector('.symbol1');
           priceElement = document.querySelector('.price1');
-        } else if (symbol === "ADAUSDT") {
+        } else if (symbol === "BCHUSDT") {
+          symbol = "BCHUSDT"; // ADA -> Bitcoin Cash로 변경
           symbolElement = document.querySelector('.symbol2');
           priceElement = document.querySelector('.price2');
         } else if (symbol === "BTCUSDT") {
+          symbol = "BTCUSDT"; 
           symbolElement = document.querySelector('.symbol3');
           priceElement = document.querySelector('.price3');
         } else if (symbol === "BNBUSDT") {
@@ -179,33 +211,37 @@
         } else if (symbol === "SOLUSDT") {
           symbolElement = document.querySelector('.symbol5');
           priceElement = document.querySelector('.price5');
-        } else if (symbol === "MATICUSDT") {
+        } else if (symbol === "LTCUSDT") {
+          symbol = "LTCUSDT"; // Matic -> Litecoin으로 변경
           symbolElement = document.querySelector('.symbol6');
           priceElement = document.querySelector('.price6');
         }
 
         if (symbolElement && priceElement) {
           symbolElement.textContent = symbol.replace('USDT', '/USDT');
-          var prevPrice = parseFloat(priceElement.textContent);
+          var prevPrice = parseFloat(priceElement.dataset.prevPrice);
           var change = parseFloat(highPrice) - prevPrice;
-
-          priceElement.textContent = parseFloat(highPrice).toFixed(2);
 
           // 이전 값과 비교하여 데이터 값이 증가했을 때에는 특정 색상 적용
           if (change > 0) {
-            priceElement.innerHTML += '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
+            priceElement.innerHTML = parseFloat(highPrice).toFixed(2) + '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
             priceElement.style.color = 'green'; // 증가한 경우의 색상
           } else if (change < 0) {
-            priceElement.innerHTML += '<span class="text-m font-weight-bolder"> (' + change.toFixed(2) + ')</span>';
+            priceElement.innerHTML = parseFloat(highPrice).toFixed(2) + '<span class="text-m font-weight-bolder"> (' + change.toFixed(2) + ')</span>';
             priceElement.style.color = 'red'; // 감소한 경우의 색상
           } else {
+            priceElement.innerHTML = parseFloat(highPrice).toFixed(2);
             priceElement.style.color = '#000000'; // 동일한 경우의 색상
           }
+
+          // 현재 가격을 다음에 사용하기 위해 데이터 속성에 저장
+          priceElement.dataset.prevPrice = highPrice;
         } else {
           console.error('요소를 찾을 수 없습니다.');
         }
       }
     };
+
 
     // WebSocket 연결이 닫혔을 때 실행되는 콜백 함수
     socket.onclose = function() {
@@ -228,13 +264,13 @@
 <script>
 
 function changeStarColor(event) {
-	  var starIcon = event.target;
-	  if (starIcon.style.color === "rgb(128, 128, 128)") {
-	    starIcon.style.color = "#f8e40d"; // 노란색
-	  } else {
-	    starIcon.style.color = "#808080"; // 회색
-	  }
-	}
+     var starIcon = event.target;
+     if (starIcon.style.color === "rgb(128, 128, 128)") {
+       starIcon.style.color = "#f8e40d"; // 노란색
+     } else {
+       starIcon.style.color = "#808080"; // 회색
+     }
+   }
 
 </script>
     
@@ -307,7 +343,7 @@ function changeStarColor(event) {
               <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
             </div>
             <span th:if="${user != null}" class="nav-link-text ms-1 text-xl" >log out</span>
-			<span th:unless="${user != null}" class="nav-link-text ms-1 text-xl" >Sign in</span>
+         <span th:unless="${user != null}" class="nav-link-text ms-1 text-xl" >Sign in</span>
           </a>
         </li>
         <li class="nav-item">
@@ -342,19 +378,19 @@ function changeStarColor(event) {
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-              <form action = "search" method="get">
-              <span class="input-group-text text-body" style="width: 50px;"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" name="cname" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
-              </form>
-            </div>
+            <div style="display: flex; align-items: center;">
+             <span class="input-group-text text-body" style="width: 40px;"><i class="fas fa-search"></i></span>
+             <form action="search" method="get" style="display: flex; align-items: center;">
+               <input type="text" name="cname" class="form-control" style="width: 200px;" placeholder="종목을 검색해주세요">
+             </form>
+           </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
               <a class="nav-link text-white font-weight-bold px-0 " th:attr="href=|${user != null ? '/' : 'signIn'}|">
                 <i class="fa fa-user me-sm-1"></i>
                 <span th:if="${user != null}" class="d-sm-inline" style="font-size:13px">log out</span>
-				<span th:unless="${user != null}" class="d-sm-inline" style="font-size:13px">Sign in</span>
+            <span th:unless="${user != null}" class="d-sm-inline" style="font-size:13px">Sign in</span>
               </a>
             </li>
             <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
@@ -449,7 +485,7 @@ function changeStarColor(event) {
       </div>
     </nav>
     <!-- End Navbar -->
-    <!-- 1~6위 종목들 -->
+   <!-- 1~6위 종목들 -->
     
     
     <div class="container-fluid py-4">
@@ -462,7 +498,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='ETHUSDT'>  <!-- 종목id -->
+                    <input type='hidden' name='ccd' value='ETHUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol1"></span>
                  </form>
@@ -492,7 +528,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='ADAUSDT'>  <!-- 종목id -->
+                    <input type='hidden' name='ccd' value='BCHUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol2"></span>
                    </form>
@@ -506,7 +542,7 @@ function changeStarColor(event) {
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCADA.svg" width="50" height="50">
+                 <img class = "rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBCH.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -522,7 +558,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='BTCUSDT'>  <!-- 종목id -->
+                    <input type='hidden' name='ccd' value='BTCUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol3"></span>
                    </form>
@@ -552,7 +588,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='BNBUSDT'>  <!-- 종목id -->
+                    <input type='hidden' name='ccd' value='BNBUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol4"></span>
                    </form>
@@ -582,7 +618,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='SOLUSDT'>  <!-- 종목id -->
+                    <input type='hidden' name='ccd' value='SOLUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol5"></span>
                    </form>
@@ -612,7 +648,7 @@ function changeStarColor(event) {
                <div class="numbers">
                  <h5 class="font-weight-bolder">
                    <form action='favorite' method='post'>
-                 	<input type='hidden' name='ccd' value='MATICUSDT'>  <!-- 종목id -->
+                    <input type='hidden' name='ccd' value='LTCUSDT'>  <!-- 종목id -->
                    <button type='submit' class='btn btn' id='heechan'><i class='fas fa-star' style='color: #808080;' onclick='changeStarColor(event)'></i></button>
                    <span class="symbol6"></span>
                    </form>
@@ -626,7 +662,7 @@ function changeStarColor(event) {
              </div>
              <div class="col-4 text-end">
                <div style="width: 50px; height: 50px;">
-                 <img class ="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCMATIC.svg" width="50" height="50">
+                 <img class ="rounded-4" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCLTC.svg" width="50" height="50">
                </div>
              </div>
            </div>
@@ -646,9 +682,12 @@ function changeStarColor(event) {
               <h4 class="text-capitalize">암호화폐 실시간차트</h4>
             </div>
             <div class="card-body p-3">
-              <div class="chart">
-                <div id="chart"></div>
+              <div class="chart-container">
+              <div class="candlestick-and-line">
+                <div id="combinedChart" class="chart"></div>
               </div>
+              <div id="volumeChart" class="chart"></div>
+           </div>
             </div>
           </div>
         </div>
@@ -814,71 +853,295 @@ function changeStarColor(event) {
   <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="./assets/js/plugins/chartjs.min.js"></script>
   
-<script>
-    var options = {
-      series: [{
-        data: [] // Leave this empty for now, we'll populate it later
-      }],
-      chart: {
-        type: 'candlestick',
-        height: 550
+ <script>
+//Options for the Combined Chart (Candlestick and Line)
+var currentTimestamp = new Date().getTime();
+var sixHoursAgo = currentTimestamp - 1 * 60 * 60 * 1000;
+
+
+var combinedOptions = {
+  grid: {
+    show: true // Hide the background grid lines
+  },
+  
+  legend: {
+      show: false // Hide the legend
+    },
+  series: [
+    {
+      name: "Candlestick",
+      type: "candlestick",
+      data: [], // Leave this empty for now, we'll populate it later
+      strokeWidth: 1
+    },
+    {
+      name: "Line Series",
+      type: "line",
+      data: [], // Leave this empty for now, we'll populate it later
+      strokeWidth: 1,
+      color : "#25316d"
+    }
+  ],
+  
+  chart: {
+    height: 400,
+    animations: {
+      enabled: false // Disable animations for better performance
+    },
+    
+  },
+  title: {
+    text: 'Candlestick and Line Chart',
+    align: 'left'
+  },
+  xaxis: {
+    type: 'datetime',
+    show: false,
+    
+    labels: {
+       min: currentTimestamp - 1 * 60 * 60 * 1000,
+       max: currentTimestamp,
+       show: false, // Hide the x-axis line
+    },
+    
+      
+    min: sixHoursAgo, // Set the minimum value for the x-axis to 6 hours ago
+    max: currentTimestamp,
+  },
+  yaxis: [
+    {
+      seriesName: "Candlestick",
+      tooltip: {
+        enabled: true
       },
-      title: {
-        text: 'Candlestick Chart',
-        align: 'left'
-      },
-      xaxis: {
-        type: 'datetime'
-      },
-      yaxis: {
-        tooltip: {
-          enabled: true
-        }
+      tickAmount: 6 // Adjust the number of ticks on the y-axis for Candlestick and Line charts as needed
+    },
+    
+  ],
+  dataLabels: {
+    enabled: false // Disable data labels (values on top of the candles and line)
+  },
+  markers: {
+    size: 0 // Hide data point markers on the charts
+  },
+  candlestick: {
+    wicks: {
+      enabled: true,
+      strokeColors: 'transparent',
+      fillColors: 'transparent'
+    },
+    candlestickWidth: 1 // Set the width of the candlesticks to 2 pixels (you can adjust this value as desired)
+  }
+};
+
+// Create a new instance for the Combined Chart
+var combinedChart = new ApexCharts(document.querySelector("#combinedChart"), combinedOptions);
+combinedChart.render();
+
+// Options for the Volume Chart
+var volumeOptions = {
+  grid: {
+    show: true // Hide the background grid lines
+  },
+  series: [
+    {
+      name: "Volume",
+      type: "bar",
+      data: [], // Leave this empty for now, we'll populate it later
+      color : "#25316d"
+    }
+  ],
+  chart: {
+    height: 150,
+    animations: {
+      enabled: false // Disable animations for better performance
+    },
+    toolbar: {
+      show: false // Hide toolbar for the volume chart
+    }
+  },
+  xaxis: {
+    type: 'datetime',
+    labels: {
+      datetimeFormatter: {
+        year: 'yyyy',
+        month: "MMM 'yy",
+        day: 'dd MMM',
+        hour: 'HH:mm'
       }
-    };
+    },
+    min: sixHoursAgo, // Set the minimum value for the x-axis to 6 hours ago
+    max: currentTimestamp
+  },
+  yaxis: {
+    seriesName: "Volume",
+    opposite: false, // Move y-axis to the right side for Volume chart
+    tickAmount: 3 // Adjust the number of ticks on the y-axis for Volume chart as needed
+  },
+  dataLabels: {
+    enabled: false // Disable data labels (values on top of the bars) for the volume chart
+  },
+  markers: {
+    size: 0 // Hide data point markers on the volume chart
+  }
+};
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-    chart.render();
+// Create a new instance for the Volume Chart
+var volumeChart = new ApexCharts(document.querySelector("#volumeChart"), volumeOptions);
+volumeChart.render();
 
-    function fetchDataAndUpdateChart() {
-      // Calculate the timestamp for 7 hours ago
-      var sevenHoursAgo = new Date().getTime() - (7 * 60 * 60 * 1000);
+//Function to fetch Line chart data
 
-      // Fetch historical data from the server using AJAX
-      $.ajax({
-        url: "http://localhost:8098/chart", // Update the URL with the correct endpoint for historical data
-        method: "GET", // Use GET method to fetch historical data
-        dataType: "json",
-        success: function (historicalData) {
-          // Filter the fetched historical data for the last 7 hours
-          var seriesData = historicalData.filter(function (item) {
-            return new Date(item.timestamp) >= sevenHoursAgo;
-          }).map(function (item) {
-            return {
-              x: new Date(item.timestamp),
-              y: [item.m5_start, item.m5_max, item.m5_min, item.m5_end]
-            };
-          });
+function fetchLineChartData(start, end) {
+  $.ajax({
+    url: "http://localhost:8098/predictions", // URL for line chart data (predictions)
+    method: "GET",
+    dataType: "json",
+    data: {
+      start: start,
+      end: end
+    },
+    success: function (lineData) {
+      // Sort the data in ascending order based on the timestamp
+      console.log(lineData)
+      lineData.sort(function (a, b) {
+        return new Date(a.timestamp) - new Date(b.timestamp);
+      });
 
-          // Update the series data in the chart
-          chart.updateSeries([{
-            data: seriesData
-          }]);
+      // Map the fetched data to the format required by ApexCharts for the Line chart series
+      var lineSeriesData = lineData.map(function (item) {
+        return {
+          x: new Date(item.timestamp),
+          y: parseFloat(item.preprice)
+        };
+      });
+
+      // Update the series data for the Line chart
+      combinedChart.updateSeries([
+        {
+          name: "Candlestick",
+          data: combinedChart.w.globals.series[0].data // Keep the original Candlestick data
         },
-        error: function (xhr, textStatus, errorThrown) {
-          console.error("Failed to fetch historical data from the API.");
-          console.error("Status: " + textStatus);
-          console.error("Error: " + errorThrown);
+        {
+          name: "Line Series",
+          data: lineSeriesData // Update with the new Line chart data
+        }
+      ]);
+
+      // Set the x-axis range to fit the entire Line chart data range
+      combinedChart.updateOptions({
+        xaxis: {
+           min: currentTimestamp - 1 * 60 * 60 * 1000,
+           max: currentTimestamp
         }
       });
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      console.error("Failed to fetch line chart data from the API.");
+      console.error("Status: " + textStatus);
+      console.error("Error: " + errorThrown);
     }
+  });
+}
 
-    // Call the function to fetch and update data on the chart initially
-    fetchDataAndUpdateChart();
+var currentTimestamp = new Date().getTime();
 
-    // Periodically fetch and update latest data on the chart every 10 seconds (adjust the interval as needed)
-    setInterval(fetchDataAndUpdateChart, 10000); // 10000 milliseconds = 10 seconds 
-  </script>
+// Fetch and update initial data on the Combined chart (last 12 hours)
+var twelveHoursAgo = currentTimestamp - 12 * 60 * 60 * 1000;
+fetchCombinedChartData(twelveHoursAgo, currentTimestamp);
+
+function fetchCombinedChartData(start, end) {
+  // Fetch Candlestick chart data
+  $.ajax({
+    url: "http://localhost:8098/chart", // URL for historical data for the candlestick chart
+    method: "GET",
+    dataType: "json",
+    data: {
+      start: start,
+      end: end
+    },
+    success: function (historicalData) {
+      // Sort the data in ascending order based on the timestamp
+      historicalData.sort(function (a, b) {
+        return new Date(a.timestamp) - new Date(b.timestamp);
+      });
+
+      // Map the fetched data to the format required by ApexCharts for the candlestick series
+      var candlestickSeriesData = historicalData.map(function (item) {
+        return {
+          x: new Date(item.timestamp),
+          y: [parseFloat(item.m5_start), parseFloat(item.m5_max), parseFloat(item.m5_min), parseFloat(item.m5_end)]
+        };
+      });
+
+      // Update the series data for the Candlestick and Line charts
+      combinedChart.updateSeries([
+        {
+          name: "Candlestick",
+          data: candlestickSeriesData
+        },
+        {
+          name: "Line Series",
+          data: [] // Empty data for the Line chart, to be fetched later
+        }
+      ]);
+   
+      // Set the x-axis range to fit the entire data range
+      combinedChart.updateOptions({
+        xaxis: {
+           min: currentTimestamp - 1 * 60 * 60 * 1000,
+            max: currentTimestamp
+        }
+      });
+      volumeSeriesData = historicalData.map(function (item) {
+          return {
+            x: new Date(item.timestamp),
+            y: parseFloat(item.volume)
+          };
+        });
+      // Fetch and update Line chart data
+      fetchLineChartData(start, end)
+      
+      volumeChart.updateSeries([
+          {
+            name: "Volume",
+            data: volumeSeriesData // For the volume chart
+          }
+        ]);
+    },
+    error: function (xhr, textStatus, errorThrown) {
+      console.error("Failed to fetch historical data for the Candlestick chart from the API.");
+      console.error("Status: " + textStatus);
+      console.error("Error: " + errorThrown);
+    }
+  });
+}
+
+function updateCharts() {
+    var newStart = end;
+    var newEnd = new Date().getTime();
+    fetchCombinedChartData(newStart, newEnd);
+  }
+
+  // Update the charts every 10 seconds
+  setInterval(updateCharts, 10000);
+
+  function handleXAxisRangeUpdate({ min, max }) {
+    // Calculate the time difference between max and min in milliseconds
+    var timeDiff = max - min;
+
+    // Check if the time difference is greater than or equal to 12 hours
+    if (timeDiff >= 12 * 60 * 60 * 1000) {
+      // Fetch new data for the updated range
+      fetchCombinedChartData(min, max);
+    }
+  }
+
+  // Add event listener for the zoomed event on the Combined Chart
+  combinedChart.on("zoomed", handleXAxisRangeUpdate);
+</script>
+
+
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->

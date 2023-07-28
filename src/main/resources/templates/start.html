@@ -2,303 +2,321 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
-  <link rel="icon" type="image/png" href="../assets/img/favicon.png">
-  <title>
-    시작페이지
-  </title>
-  <!--     Fonts and icons     -->
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
-  <!-- Nucleo Icons -->
-  <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- Font Awesome Icons -->
-  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
-  <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
-  <!-- CSS Files -->
-  <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
+    <link rel="icon" type="image/png" href="../assets/img/favicon.png">
+    <title>
+        시작페이지
+    </title>
+    <!--     Fonts and icons     -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+    <!-- Nucleo Icons -->
+    <link href="../assets/css/nucleo-icons.css" rel="stylesheet" />
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="../assets/css/nucleo-svg.css" rel="stylesheet" />
+    <!-- CSS Files -->
+    <link id="pagestyle" href="../assets/css/argon-dashboard.css?v=2.0.4" rel="stylesheet" />
+    <!--버튼불러오는 link -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
 </head>
 
 <style>
-  /* 동영상이 배경으로 설정될 div 요소에 position: relative를 추가합니다. */
-  .position-relative {
-    position: relative;
-  }
+    /*       Just setting CSS for the page   */
 
-  /* 동영상을 absolute로 설정하여 div의 크기에 맞게 채웁니다. */
-  #bg-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1; /* 텍스트가 동영상 위에 오버레이되도록 z-index 값을 음수로 지정합니다. */
-    opacity: 1; /* 동영상의 투명도를 조정합니다. 1은 완전 불투명, 0은 완전 투명입니다. */
-  }
+    * {
+        margin: 0;
+        padding: 0;
+    }
 
-  /* 텍스트를 원하는 위치에 배치합니다. */
-  .section {
-    position: relative;
-    /* 원하는 위치에 조정하세요. */
-    top: 50%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
+    html,
+    css {
+        width: 100%;
+        height: 100%;
+    }
+
+    .position {
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        margin-top: 15%;
+    }
+
+
+
+    #personal {
+        color: white;
+        text-decoration: none;
+        position: absolute;
+        bottom: 15px;
+        right: 2%;
+    }
+
+    /*    start code for the actual button:         */
+
+
+    /*   
+    Spot is the span on the inside of the href that
+    fills the parent and makes the hover and link work
+    for the entire div
+*/
+
+    .spot {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+
+    /*
+    This is the outer svg wrapper that the SVG itself will 
+    fill. Multiple svg-wrapper classes can be put side by side.
+*/
+
+    .svg-wrapper {
+        margin-top: 0;
+        position: relative;
+        width: 150px;
+        /*make sure to use same height/width as in the html*/
+        height: 40px;
+        display: inline-block;
+        border-radius: 3px;
+        margin-left: 5px;
+        margin-right: 5px
+    }
+
+    /*
+  This is where we define the fill, color, thickness,
+  and stroke pattern of the SVG when there is no hover.
+  The dasharray and offset together define the line position
+  under the words. Here's also where the transition speed is set.
+*/
+
+    #shape {
+        stroke-width: 6px;
+        fill: transparent;
+        stroke: #009FFD;
+        stroke-dasharray: 85 400;
+        stroke-dashoffset: -220;
+        transition: 1s all ease;
+    }
+
+    /* 
+    Pushing the text up into the SVG. Without this the
+    text would be below the div's.
+*/
+
+    #text {
+        margin-top: -35px;
+        text-align: center;
+    }
+
+    #text a {
+        color: white;
+        text-decoration: none;
+        font-weight: 100;
+        font-size: 1.1em;
+    }
+
+    /* 
+    Changing the shape on hover. I change the color of the stroke,
+make it thinner, then set it to again wrap around the entire parent element.
+*/
+
+    .svg-wrapper:hover #shape {
+        stroke-dasharray: 50 0;
+        stroke-width: 3px;
+        stroke-dashoffset: 0;
+        stroke: #06D6A0;
+    }
+
+
+
+    /* 텍스트를 원하는 위치에 배치합니다. */
+    .section {
+        position: relative;
+        /* 원하는 위치에 조정하세요. */
+        top: 50%;
+        left: 10%;
+        transform: translate(-50%, -50%);
+        text-align: center;
+    }
+
+    /* 버튼을 가운데 정렬하는 스타일을 적용합니다. */
+    .button-wrapper {
+        text-align: center;
+    }
+
+    /* 세 요소를 각기 다른 줄에 표시하기 위해 블록 수준 요소로 만듭니다. */
+    h1,
+    h3,
+    button {
+        display: block;
+        margin: 0;
+    }
+
+    /* container1을 위로 올리는 스타일을 추가합니다. */
+    .container1 {
+        order: -1;
+        /* order를 음수로 설정하여 위로 올립니다. */
+        margin-top: 11vh;
+        /* 원하는 위치에 맞게 상단 마진을 설정합니다. */
+        margin-left: 11vh;
+    }
+
+    .bg-wrapper {
+        display: flex;
+        height: 95vh;
+    }
 </style>
 
 <body class="g-sidenav-show  bg-gray-100 virtual-reality">
-  <div>
-    <!-- Navbar -->
-    <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl  mt-3 mx-3 bg-primary" id="navbarBlur" data-scroll="false">
-      <div class="container-fluid py-1 px-3">
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">Pages</a></li>
-          </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Start</h6>
-        </nav>
-        <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
-          <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="종목을 검색해주세요">
-            </div>
-          </div>
-          <ul class="navbar-nav  justify-content-end">
-            <li class="nav-item d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white font-weight-bold px-0">
-                <i class="fa fa-user me-sm-1"></i>
-                <span class="d-sm-inline d-none">Sign In</span>
-              </a>
-            </li>
-            <li class="nav-item d-xl-none ps-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0" id="iconNavbarSidenav">
-                <div class="sidenav-toggler-inner">
-                  <i class="sidenav-toggler-line bg-white"></i>
-                  <i class="sidenav-toggler-line bg-white"></i>
-                  <i class="sidenav-toggler-line bg-white"></i>
-                </div>
-              </a>
-            </li>
-            <li class="nav-item px-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0">
-                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-              </a>
-            </li>
-            <li class="nav-item dropdown pe-2 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fa fa-bell cursor-pointer"></i>
-              </a>
-              <ul class="dropdown-menu  dropdown-menu-end  px-2 py-3 me-sm-n4" aria-labelledby="dropdownMenuButton">
-                <li class="mb-2">
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/team-2.jpg" class="avatar avatar-sm  me-3 ">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New message</span> from Laur
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          13 minutes ago
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li class="mb-2">
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="my-auto">
-                        <img src="../assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark  me-3 ">
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          <span class="font-weight-bold">New album</span> by Travis Scott
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          1 day
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item border-radius-md" href="javascript:;">
-                    <div class="d-flex py-1">
-                      <div class="avatar avatar-sm bg-gradient-secondary  me-3  my-auto">
-                        <svg width="12px" height="12px" viewBox="0 0 43 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                          <title>credit-card</title>
-                          <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g transform="translate(-2169.000000, -745.000000)" fill="#FFFFFF" fill-rule="nonzero">
-                              <g transform="translate(1716.000000, 291.000000)">
-                                <g transform="translate(453.000000, 454.000000)">
-                                  <path class="color-background" d="M43,10.7482083 L43,3.58333333 C43,1.60354167 41.3964583,0 39.4166667,0 L3.58333333,0 C1.60354167,0 0,1.60354167 0,3.58333333 L0,10.7482083 L43,10.7482083 Z" opacity="0.593633743"></path>
-                                  <path class="color-background" d="M0,16.125 L0,32.25 C0,34.2297917 1.60354167,35.8333333 3.58333333,35.8333333 L39.4166667,35.8333333 C41.3964583,35.8333333 43,34.2297917 43,32.25 L43,16.125 L0,16.125 Z M19.7083333,26.875 L7.16666667,26.875 L7.16666667,23.2916667 L19.7083333,23.2916667 L19.7083333,26.875 Z M35.8333333,26.875 L28.6666667,26.875 L28.6666667,23.2916667 L35.8333333,23.2916667 L35.8333333,26.875 Z"></path>
-                                </g>
-                              </g>
-                            </g>
-                          </g>
-                        </svg>
-                      </div>
-                      <div class="d-flex flex-column justify-content-center">
-                        <h6 class="text-sm font-weight-normal mb-1">
-                          Payment successfully completed
-                        </h6>
-                        <p class="text-xs text-secondary mb-0">
-                          <i class="fa fa-clock me-1"></i>
-                          2 days
-                        </p>
-                      </div>
-                    </div>
-                  </a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-    <!-- End Navbar -->
-  </div>
-  <div class="border-radius-xl mt-4 mx-4 position-relative">
-  <video class = "border-radius-xl" id="bg-video" width="100%" height="auto" loop autoplay muted>
-    <source src="./assets/vedio/candlestick.mp4" type="video/mp4">
-    <!-- 브라우저가 mp4 형식을 지원하지 않을 경우를 대비해 다른 형식의 비디오 파일도 추가할 수 있습니다. -->
-    <!--<source src="your_video_file_path.webm" type="video/webm">-->
-    <!--<source src="your_video_file_path.ogv" type="video/ogg">-->
-    Your browser does not support the video tag.
-  </video>
+    <div>
+        
+    </div>
+		<div class="border-radius-xl mt-4 mx-4 position-relative" style="background-image: url('./assets/img/background.jpg'); background-size: cover; background-position: center;">
+		  <main class="main-content mt-1 border-radius-lg">
+		    <div class="bg-wrapper">
+		      <div class="container1">
+		        <div class="child1">
+		          <h1 style="color: white; font-size: 100px; padding-bottom: 20px;">Synergy</h1>
+		          <h3 style="color: white; padding-bottom: 20px;">:: 암호화폐 트레이딩 대시보드</h3>
+		        </div>
+		        <div calss="child1">
+		          <div id="workarea">
+		              <div class="svg-wrapper">
+		                <svg height="40" width="150" xmlns="http://www.w3.org/2000/svg">
+		                  <rect id="shape" height="40" width="150" />
+		                  <div id="text">
+		                    <a href="http://localhost:8098/main" style="font-weight: bold" ><span class="spot"></span>Dashboard</a>
+		                  </div>
+		                </svg>
+		              </div>
+		          </div>
+		        </div>
+		      </div>
+		    </div>
+		  </main>
+		</div>
 
-  <main class="main-content mt-1 border-radius-lg">
-    <div class="section min-vh-85 position-relative transform-scale-0 transform-scale-md-8">
-      <h1 style="color: white;">Synergy</h1>
-      <h3 style="color: white;">안전하고 투명한 시스템으로 빠르고 편리한 거래 환경을 제공합니다.</h3>
+
+
     </div>
-      <button class ="card-body p-4 breadcrumb"type="button" onclick="location.href='/main' ">후후불어넣기</button>
-  </main>
-</div>
-  <footer class="footer pt-3  ">
-    <div class="container-fluid">
-      <div class="row align-items-center justify-content-lg-between">
-        <div class="col-lg-6 mb-lg-0 mb-4">
-          <div class="copyright text-center text-sm text-muted text-lg-start">
-            <script>
-            </script>
-          </div>
+    <footer class="footer pt-3  ">
+        <div class="container-fluid">
+            <div class="row align-items-center justify-content-lg-between">
+                <div class="col-lg-6 mb-lg-0 mb-4">
+                    <div class="copyright text-center text-sm text-muted text-lg-start">
+                        <script>
+                        </script>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-lg-end">
+                        <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
+                        </li>
+                        <li class="nav-item">
+                        </li>
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-6">
-          <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-            <li class="nav-item">
-            </li>
-            <li class="nav-item">
-            </li>
-            <li class="nav-item">
-            </li>
-            <li class="nav-item">
-            </li>
-          </ul>
+    </footer>
+    <div class="fixed-plugin">
+        
+        <div class="card shadow-lg">
+            <div class="card-header pb-0 pt-3 ">
+                <div class="float-start">
+                    <h5 class="mt-3 mb-0">Argon Configurator</h5>
+                    <p>See our dashboard options.</p>
+                </div>
+                <div class="float-end mt-4">
+                    <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+                        <i class="fa fa-close"></i>
+                    </button>
+                </div>
+                <!-- End Toggle Button -->
+            </div>
+            <hr class="horizontal dark my-1">
+            <div class="card-body pt-sm-3 pt-0 overflow-auto">
+                <!-- Sidebar Backgrounds -->
+                <div>
+                    <h6 class="mb-0">Sidebar Colors</h6>
+                </div>
+                <a href="javascript:void(0)" class="switch-trigger background-color">
+                    <div class="badge-colors my-2 text-start">
+                        <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+                        <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+                    </div>
+                </a>
+                <!-- Sidenav Type -->
+                <div class="mt-3">
+                    <h6 class="mb-0">Sidenav Type</h6>
+                    <p class="text-sm">Choose between 2 different sidenav types.</p>
+                </div>
+                <div class="d-flex">
+                    <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+                    <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
+                </div>
+                <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+                <!-- Navbar Fixed -->
+                <div class="d-flex my-3">
+                    <h6 class="mb-0">Navbar Fixed</h6>
+                    <div class="form-check form-switch ps-0 ms-auto my-auto">
+                        <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+                    </div>
+                </div>
+                <hr class="horizontal dark my-sm-4">
+                <div class="mt-2 mb-5 d-flex">
+                    <h6 class="mb-0">Light / Dark</h6>
+                    <div class="form-check form-switch ps-0 ms-auto my-auto">
+                        <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+                    </div>
+                </div>
+                <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
+                <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
+                <div class="w-100 text-center">
+                    <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
+                    <h6 class="mt-3">Thank you for sharing!</h6>
+                    <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+                        <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+                    </a>
+                    <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+                        <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </footer>
-  <div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="fa fa-cog py-2"> </i>
-    </a>
-    <div class="card shadow-lg">
-      <div class="card-header pb-0 pt-3 ">
-        <div class="float-start">
-          <h5 class="mt-3 mb-0">Argon Configurator</h5>
-          <p>See our dashboard options.</p>
-        </div>
-        <div class="float-end mt-4">
-          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-            <i class="fa fa-close"></i>
-          </button>
-        </div>
-        <!-- End Toggle Button -->
-      </div>
-      <hr class="horizontal dark my-1">
-      <div class="card-body pt-sm-3 pt-0 overflow-auto">
-        <!-- Sidebar Backgrounds -->
-        <div>
-          <h6 class="mb-0">Sidebar Colors</h6>
-        </div>
-        <a href="javascript:void(0)" class="switch-trigger background-color">
-          <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-          </div>
-        </a>
-        <!-- Sidenav Type -->
-        <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
-          <p class="text-sm">Choose between 2 different sidenav types.</p>
-        </div>
-        <div class="d-flex">
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
-        </div>
-        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-        <!-- Navbar Fixed -->
-        <div class="d-flex my-3">
-          <h6 class="mb-0">Navbar Fixed</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-          </div>
-        </div>
-        <hr class="horizontal dark my-sm-4">
-        <div class="mt-2 mb-5 d-flex">
-          <h6 class="mb-0">Light / Dark</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-          </div>
-        </div>
-        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
-        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
-        <div class="w-100 text-center">
-          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Thank you for sharing!</h6>
-          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!--   Core JS Files   -->
-  <script src="../assets/js/core/popper.min.js"></script>
-  <script src="../assets/js/core/bootstrap.min.js"></script>
-  <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
-  <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
-  <script>
-    var win = navigator.platform.indexOf('Win') > -1;
-    if (win && document.querySelector('#sidenav-scrollbar')) {
-      var options = {
-        damping: '0.5'
-      }
-      Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
-    }
-  </script>
-  <!-- Github buttons -->
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
-  <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
+    <!--   Core JS Files   -->
+    <script src="../assets/js/core/popper.min.js"></script>
+    <script src="../assets/js/core/bootstrap.min.js"></script>
+    <script src="../assets/js/plugins/perfect-scrollbar.min.js"></script>
+    <script src="../assets/js/plugins/smooth-scrollbar.min.js"></script>
+    <script>
+        var win = navigator.platform.indexOf('Win') > -1;
+        if (win && document.querySelector('#sidenav-scrollbar')) {
+            var options = {
+                damping: '0.5'
+            }
+            Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
+        }
+    </script>
+    <!-- Github buttons -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
+    <script src="../assets/js/argon-dashboard.min.js?v=2.0.4"></script>
 </body>
 
 </html>

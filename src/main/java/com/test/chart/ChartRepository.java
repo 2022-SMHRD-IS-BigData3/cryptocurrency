@@ -10,3 +10,4 @@ public interface ChartRepository extends JpaRepository<tblminute5, Long> {
     // Custom method to fetch all candle data
     List<tblminute5> findAll(); // Make sure tblminute5 is the correct entity class name
 }
+
