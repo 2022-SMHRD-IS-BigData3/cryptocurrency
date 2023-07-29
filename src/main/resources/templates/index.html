@@ -75,7 +75,7 @@
 		#ethInput, #bchInput, #btcInput, #bnbInput, #ltcInput, #solInput {
 		  font-size: 15px;
 		  color: #222222;
-		  width: 158px;
+		  width: 190px;
 		  border: none;
 		  border-bottom: solid #aaaaaa 1px;
 		  padding-bottom: 10px;
@@ -84,6 +84,13 @@
 		  background: none;
 		  z-index: 5;
 		  font-family: 'IAMAPLAYER';
+		}
+		
+		input[type=checkbox], input[type=radio]{
+		    margin: 4px 0 0;
+		    margin-top: 1px\9;
+		    line-height: normal;
+		    margin-left: 20px;
 		}
 		
 		.jujin{
@@ -135,6 +142,25 @@
 			 color: #EBE3AA;
 		}
 		
+		hr[role="tournament3"] {
+		    border: 0px solid;
+		    height: 1px;
+		    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(172, 131, 83, 0.75), rgba(0, 0, 0, 0));
+		    margin: 32px 0px;
+		    display: block;
+		}
+		hr[role="tournament3"]::before {
+		    position: absolute;
+		    background-color: #efefef;
+		    border: 10px solid #AC8353;
+		    border-top: 10px solid transparent;
+		    border-radius: 2px;
+		    padding: 0px;
+		    transform: rotate(180deg);
+		    left: 50%;
+		    margin: -5px 0px 0px -21px;
+		    content: "";
+		}
          
          
          #volumeChart {
@@ -833,54 +859,55 @@ function changeStarColor(event) {
                      <!-- Use 'container' class instead of 'my-container' -->
 	                 <div class="vertical-forms">
 	                 <form action="/addAlarm" method="post">
-	                    <div class="card-body p-3 my-child"><span class="button-text" style="padding-right: 10px;">ETH/USDT</span>
+	                    <div class="card-body p-3 my-child"><img class="rounded-4" style="width:20px; height:20px; margin-right:10px;" alt="ETH" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCETH.svg"><span class="button-text" style="padding-right: 10px;">ETH/USDT</span>
 	                    <input id="ethInput" type="number" name="price" placeholder="예약값을 입력하세요">
 	                    <input  type="hidden" name="ccd" value="ETH/USDT">
-	                    <button class="jujin btn btn-info" type="submit">알림</button> </div>
+	                    <button class="jujin btn btn-info" type="submit" style="margin-left:2.3px;">알림</button> </div>
 	                  </form>
 	                  <br>
 	                  <form action="/addAlarm" method="post">
-	                    <div class="card-body p-3 my-child"><span class="button-text" style="padding-right: 10px;">BCH/USDT</span>
+	                    <div class="card-body p-3 my-child"><img class="rounded-4" style="width:20px; height:20px; margin-right:10px;" alt="ETH" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBCH.svg"><span class="button-text" style="padding-right: 10px;">BCH/USDT</span>
 	                    <input id="bchInput" type="number" name="price" placeholder="예약값을 입력하세요"> 
 	                    <input  type="hidden" name="ccd" value="BCH/USDT">
 	                    <button class="jujin btn btn-info" type="submit">알림</button> </div>
 	                   </form>
 	                   <br>
 	                   <form action="/addAlarm" method="post">
-	                    <div class="card-body p-3 my-child"><span class="button-text" style="padding-right: 10px;">BTC/USDT</span>
+	                    <div class="card-body p-3 my-child"><img class="rounded-4" style="width:20px; height:20px; margin-right:10px;" alt="ETH" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBTC.svg"><span class="button-text" style="padding-right: 10px;">BTC/USDT</span>
 	                    <input id="btcInput" type="number" name="price" placeholder="예약값을 입력하세요"> 
 	                    <input  type="hidden" name="ccd" value="BTC/USDT">
-	                    <button class="jujin btn btn-info" type="submit">알림</button> </div>
+	                    <button class="jujin btn btn-info" type="submit" style="margin-left:3.2px;">알림</button> </div>
 	                  </form>
 	                  <br>
 	                  <form action="/addAlarm" method="post">
-	                    <div class="card-body p-3 my-child"><span class="button-text" style="padding-right: 10px;">BNB/USDT</span>
+	                    <div class="card-body p-3 my-child"><img class="rounded-4" style="width:20px; height:20px; margin-right:10px;" alt="ETH" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCBNB.svg"><span class="button-text" style="padding-right: 10px;">BNB/USDT</span>
 	                    <input id="bnbInput" type="number" name="price" placeholder="예약값을 입력하세요"> 
 	                    <input  type="hidden" name="ccd" value="BNB/USDT">
 	                    <button class="jujin btn btn-info" type="submit">알림</button> </div>
 	                  </form>
 	                  <br>
 	                  <form action="/addAlarm" method="post">
-	                    <div class="card-body p-3 my-child"><span class="button-text" style="padding-right: 10px;">SOL/USDT</span>
+	                    <div class="card-body p-3 my-child"><img class="rounded-4" style="width:20px; height:20px; margin-right:10px;" alt="ETH" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCSOL.svg"><span class="button-text" style="padding-right: 10px;">SOL/USDT</span>
 	                    <input id="solInput" type="number" name="price" placeholder="예약값을 입력하세요"> 
 	                    <input  type="hidden" name="ccd" value="SOL/USDT">
-	                    <button class="jujin btn btn-info" type="submit">알림</button> </div>
+	                    <button class="jujin btn btn-info" type="submit" style="margin-left:2px;">알림</button> </div>
 	                  </form>
 	                  <br>
 	                  <form action="/addAlarm" method="post">
-	                    <div class="card-body p-3 my-child"><span class="button-text" style="padding-right: 10px;">LTC/USDT</span>
+	                    <div class="card-body p-3 my-child"><img class="rounded-4" style="width:20px; height:20px; margin-right:10px;" alt="ETH" src="https://s3-symbol-logo.tradingview.com/crypto/XTVCLTC.svg"><span class="button-text" style="padding-right: 10px;">LTC/USDT</span>
 	                    <input id="ltcInput" type="number" name="price" placeholder="예약값을 입력하세요" > 
 	                    <input  type="hidden" name="ccd" value="LTC/USDT">
-	                    <button class="jujin btn btn-info" type="submit">알림</button> </div>
+	                    <button class="jujin btn btn-info" type="submit" style="margin-left:3.5px;">알림</button> </div>
 	                </form>
                  </div>
                 </div>
-                 <hr class="horizontal dark my-sm-4">
+                 <hr class="horizontal dark my-sm-4" role="tournament3">
                  <div class="mt-2 mb-5 d-flex flex-column" id="movedDivContainer">
 					<!-- 알림목록 불러오기 -->
                <!-- 여기에 알림 목록이 출력될 영역을 만듭니다. -->
-               <p><span>즐겨찾기 목록</span><span><button>Delete</button></span></p>
+               <p><span>즐겨찾기 목록</span><span ><button class="btn btn-danger" style="margin-left: 240px;">Delete</button></span></p>
                  <ul class="large-numbers" id="notificationList"></ul> 
+                 
                  </div>
                  
              </div>
