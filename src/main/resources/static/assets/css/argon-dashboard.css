@@ -21466,12 +21466,13 @@ fieldset:disabled .btn {
 }
 
 .fixed-plugin.show .card {
+  width: 430px;
   right: 0;
   background: aliceblue;
 /*   background: #25316D; */
   color: black;
   font-size: small;
-  border-radius: 3%;
+  border-radius: 1.5rem;
 }
 
 .input-group {
