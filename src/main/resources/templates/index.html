@@ -105,41 +105,13 @@
 		  line-height: 1.25;
 		}
 		
-		.large-numbers > li{
+		.large-numbers > table{
 		  position:relative; /* Create a positioning context */
 		  list-style:none; /* Disable the normal item numbering */
 		  margin: 1rem 0 1rem 2rem;
 		  padding: 0 0 0 1rem;
 		  font-size: 21px;
 		  font-family: 'IAMAPLAYER';
-		}
-		
-		.large-numbers > li:before{
-		  content:counter(li); /* Use the counter as content */
-		  counter-increment:li; /* Increment the counter by 1 */
-		  /* Position and style the number */
-		  position:absolute;
-		  top: -0.3em; /* move numbers up or down as needed */
-		  left:-0.9em;
-		  width: 1em;
-		  text-align:center;
-		  -moz-box-sizing:border-box;
-		  -webkit-box-sizing:border-box;
-		  box-sizing:border-box;
-		  font-size: 1em;
-		  font-weight: bold;
-		  font-weight: 700;
-		  color: #A8CABA;
-		  text-shadow:
-		       3px 3px 0 #838689,
-		     -1px -1px 0 #838689,  
-		      1px -1px 0 #838689,
-		      -1px 1px 0 #838689,
-		       1px 1px 0 #838689;
-		}
-		
-		.large-numbers li:hover:before {
-			 color: #EBE3AA;
 		}
 		
 		hr[role="tournament3"] {
@@ -1252,23 +1224,40 @@ function myAlarm() {
             // 기존에 있던 목록들을 모두 제거합니다.
             notificationList.innerHTML = '';
 
-            // 알림 목록을 순회하면서 새로운 목록을 생성하여 추가합니다.
-            res.forEach(function(notification) {
-              var listItem = document.createElement("li");
-              
-           // 체크박스 생성
-            var checkbox = document.createElement("input");
-              checkbox.type = "checkbox"; // input 요소의 타입을 checkbox로 설정
-              // 이곳에 체크박스와 연결할 기능이 있다면 추가해줄 수 있습니다.
-              
-           // 'ccd'와 'price'를 가져와서 목록에 추가합니다.
-              var ccdText = "ccd: " + notification.ccd;
-              var priceText = "price: " + notification.price;
+         // 테이블 생성
+            var table = document.createElement("table");
+            table.className = "large-numbers"; // 클래스 추가 (optional)
 
-              listItem.textContent = ccdText + ", " + priceText;
-              notificationList.appendChild(listItem);
-              listItem.appendChild(checkbox); // 체크박스를 리스트 아이템에 추가
+            // 알림 목록을 순회하면서 새로운 행을 생성하여 테이블에 추가합니다.
+            res.forEach(function(notification) {
+              var row = document.createElement("tr");
+
+              // 'ccd' 데이터 열 생성
+              var ccdCell = document.createElement("td");
+              ccdCell.textContent = notification.ccd;
+
+              // 'price' 데이터 열 생성
+              var priceCell = document.createElement("td");
+              priceCell.textContent = notification.price;
+
+              // 체크박스 열 생성
+              var checkboxCell = document.createElement("td");
+              var checkbox = document.createElement("input");
+              checkbox.type = "checkbox";
+              // 이곳에 체크박스와 연결할 기능이 있다면 추가해줄 수 있습니다.
+              checkboxCell.appendChild(checkbox);
+
+              // 각 열을 행에 추가합니다.
+              row.appendChild(ccdCell);
+              row.appendChild(priceCell);
+              row.appendChild(checkboxCell);
+
+              // 행을 테이블에 추가합니다.
+              table.appendChild(row);
             });
+
+            // 테이블을 목록에 추가합니다.
+            notificationList.appendChild(table);
           } 
         
         
