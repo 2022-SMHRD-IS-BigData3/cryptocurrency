@@ -879,7 +879,7 @@ function changeStarColor(event) {
                  <div class="mt-2 mb-5 d-flex flex-column" id="movedDivContainer">
 					<!-- 알림목록 불러오기 -->
                <!-- 여기에 알림 목록이 출력될 영역을 만듭니다. -->
-               <p>즐겨찾기 목록</p>
+               <p><span>즐겨찾기 목록</span><span><button>Delete</button></span></p>
                  <ul class="large-numbers" id="notificationList"></ul> 
                  </div>
                  
@@ -1226,9 +1226,9 @@ function myAlarm() {
               var ccdText = "ccd: " + notification.ccd;
               var priceText = "price: " + notification.price;
 
-              listItem.appendChild(checkbox); // 체크박스를 리스트 아이템에 추가
               listItem.textContent = ccdText + ", " + priceText;
               notificationList.appendChild(listItem);
+              listItem.appendChild(checkbox); // 체크박스를 리스트 아이템에 추가
             });
           } 
         
