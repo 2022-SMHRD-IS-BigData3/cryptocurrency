@@ -10,6 +10,7 @@
   
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" type="image/png" href="./assets/img/logos/logoTest5.png">
   <link rel="apple-touch-icon" sizes="76x76" href="./assets/img/apple-icon.png">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
         integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
@@ -243,7 +244,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.36.0/apexcharts.min.js"></script>
 
 <script>
- document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     var socket = new WebSocket('wss://stream.binance.com:9443/ws');
     var intervalId; // 변수 선언
 
@@ -265,7 +266,33 @@
       }, 5 * 60 * 1000); // 5분(밀리초 단위)
     };
 
- // WebSocket 메시지 수신 이벤트 처리
+    // Function to animate price updates
+    function animatePriceUpdate(element, newPrice) {
+      var prevPrice = parseFloat(element.dataset.prevPrice);
+      var startTime = null;
+      var duration = 1000; // Animation duration in milliseconds (adjust as needed)
+
+      function updateStep(timestamp) {
+        if (!startTime) startTime = timestamp;
+        var progress = timestamp - startTime;
+        var change = newPrice - prevPrice;
+        var updatedPrice = prevPrice + (change * progress) / duration;
+
+        // Stop animation when duration is reached
+        if (progress < duration) {
+          element.innerHTML = updatedPrice.toFixed(2) + '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
+          element.style.color = change > 0 ? 'green' : 'red';
+          requestAnimationFrame(updateStep);
+        } else {
+          element.innerHTML = newPrice.toFixed(2);
+          element.style.color = '#000000';
+        }
+      }
+
+      requestAnimationFrame(updateStep);
+    }
+
+    // WebSocket 메시지 수신 이벤트 처리
     socket.onmessage = function(event) {
       var message = JSON.parse(event.data);
       if (message && message.s && message.k) {
@@ -305,11 +332,9 @@
 
           // 이전 값과 비교하여 데이터 값이 증가했을 때에는 특정 색상 적용
           if (change > 0) {
-            priceElement.innerHTML = parseFloat(highPrice).toFixed(2) + '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
-            priceElement.style.color = 'green'; // 증가한 경우의 색상
+            animatePriceUpdate(priceElement, parseFloat(highPrice));
           } else if (change < 0) {
-            priceElement.innerHTML = parseFloat(highPrice).toFixed(2) + '<span class="text-m font-weight-bolder"> (' + change.toFixed(2) + ')</span>';
-            priceElement.style.color = 'red'; // 감소한 경우의 색상
+            animatePriceUpdate(priceElement, parseFloat(highPrice));
           } else {
             priceElement.innerHTML = parseFloat(highPrice).toFixed(2);
             priceElement.style.color = '#000000'; // 동일한 경우의 색상
@@ -322,7 +347,6 @@
         }
       }
     };
-
 
     // WebSocket 연결이 닫혔을 때 실행되는 콜백 함수
     socket.onclose = function() {
@@ -340,7 +364,6 @@
       clearInterval(intervalId);
     };
   });
-
 </script>
 <script>
 
@@ -406,7 +429,7 @@ function changeStarColor(event) {
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav" style="width:180px">
         <li class="nav-item">
-          <a class="nav-link active" href="./pages/dashboard.html">
+          <a class="nav-link active" >
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
@@ -738,9 +761,9 @@ function changeStarColor(event) {
           <!-- 뉴스 -->
            <div class="card-header pb-0 p-3 px-0">
                         <div class="card">
-                            <div class="card-header pb-0 p-3" style="height:255px">
+                            <div class="card-header pb-0 p-3" style="height:275px">
                                 <h4 class=text-center>📰 뉴스</h4>
-                                <div style="height: 200px; overflow-y: scroll;">
+                                <div style="height: 240px; overflow-y: scroll;">
                                     <table class="table table-striped text-lg">
                                         <tbody>
                                             <tr th:each="news, iterStat : ${newsList}">

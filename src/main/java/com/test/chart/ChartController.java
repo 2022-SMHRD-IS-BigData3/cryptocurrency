@@ -17,6 +17,10 @@ public class ChartController {
 
     @Autowired
     ChartRepository repository;
+    @Autowired
+    ethRepository erep;
+    @Autowired
+    bchRepository hrep;
 
     @GetMapping("/chart")
     public @ResponseBody List<tblminute5> getCandleData() {
@@ -46,6 +50,20 @@ public class ChartController {
         List<PredictionEntity> predictionsData = predictions.findAll();
         return predictionsData;
     }
+    @GetMapping("/ethdata")
+    public @ResponseBody List<ethdata> getEthData() {
+        // Fetch all predictions data from the database using the custom method in PredictionsRepository
+        List<ethdata> result = erep.findAll();
+        return result;
+    }
+    @GetMapping("/bchdata")
+    public @ResponseBody List<bchdata> getBchData() {
+        // Fetch all predictions data from the database using the custom method in PredictionsRepository
+        List<bchdata> result = hrep.findAll();
+        return result;
+    }
+
+   
     
     
 }
