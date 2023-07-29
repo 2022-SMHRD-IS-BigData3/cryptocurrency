@@ -36,7 +36,7 @@ public class CustomWebSocketHandler implements WebSocketHandler {
 
     @Override
     public Mono<Void> handle(WebSocketSession session) {
-        Mono<Void> sendMono = session.send(Mono.just(session.textMessage("{\"method\": \"SUBSCRIBE\",\"params\": [\"btcusdt@kline_1m\"],\"id\": 1}")));
+        Mono<Void> sendMono = session.send(Mono.just(session.textMessage("{\"method\": \"SUBSCRIBE\",\"params\": [\"btcusdt@kline_5m\"],\"id\": 1}")));
         Flux<WebSocketMessage> receiveFlux = session.receive();
 
         return sendMono.thenMany(receiveFlux)
