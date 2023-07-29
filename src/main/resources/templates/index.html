@@ -1194,10 +1194,16 @@ function myAlarm() {
             res.forEach(function(notification) {
               var listItem = document.createElement("li");
               
+           // 체크박스 생성
+            var checkbox = document.createElement("input");
+              checkbox.type = "checkbox"; // input 요소의 타입을 checkbox로 설정
+              // 이곳에 체크박스와 연결할 기능이 있다면 추가해줄 수 있습니다.
+              
            // 'ccd'와 'price'를 가져와서 목록에 추가합니다.
               var ccdText = "ccd: " + notification.ccd;
               var priceText = "price: " + notification.price;
 
+              listItem.appendChild(checkbox); // 체크박스를 리스트 아이템에 추가
               listItem.textContent = ccdText + ", " + priceText;
               notificationList.appendChild(listItem);
             });
