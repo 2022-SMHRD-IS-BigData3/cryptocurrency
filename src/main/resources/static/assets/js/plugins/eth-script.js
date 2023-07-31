@@ -280,6 +280,3 @@ function updateCharts() {
       fetchCombinedChartData(min, max);
     }
   }
-
-  // Add event listener for the zoomed event on the Combined Chart
-  combinedChart.on("zoomed", handleXAxisRangeUpdate);

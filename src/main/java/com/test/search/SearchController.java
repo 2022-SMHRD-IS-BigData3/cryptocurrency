@@ -24,28 +24,36 @@ import com.test.news.NewsRepository;
 public class SearchController {
 
 	@Autowired
-	CoinsearchRepository repository;
-	@Autowired
 	NewsRepository newsRepository;
 
 	// news의 조건을 준 검색 컨트롤러
-	@RequestMapping(value="/search")
-	public String searchNews(@RequestParam("cname") String cname, Model model,HttpSession session) {
-	    tbl_cryptocurrency cc = repository.findByCname(cname);
-	    System.out.println("cc: " + cc);
+	@PostMapping(value="/search")
+	public String searchNews(@RequestParam("search") String search, RedirectAttributes rttr, Model model, HttpSession session) {
+		String keyword = null;
+		System.out.println("이건뭐야??  :" +search);
+		if ("ETH".equals(search)) {
+			keyword = "이더리움";
+		} else if ("BCH".equals(search)) {
+			keyword = "비트코인 캐시";
+		} else if ("BTC".equals(search)) {
+			keyword = "비트코인";
+		} else if ("BNB".equals(search)) {
+			keyword = "바이낸스코인";
+		} else if ("SOL".equals(search)) {
+			keyword = "솔라나";
+		} else {
+			keyword = "라이트코인";
+		}
 	    List<News> newsList = new ArrayList<>();
-	    if (cc != null) {
-	        String keyword = cc.getCname();
-	        newsList = newsRepository.findByKeyword(keyword);
-	        System.out.println("keyword: " + keyword);
-	    }
+        newsList = newsRepository.findByKeyword(keyword);
+        System.out.println("keyword: " + keyword);
 	    if (session.getAttribute("user") != null) {
 	        tbl_user user = (tbl_user) session.getAttribute("user");
+//	        rttr.addFlashAttribute("user", user);
 	        model.addAttribute("user", user);
 	        
 	    }
-	    model.addAttribute("coinData", cc);
-	    model.addAttribute("keyword", cname);
+//	    rttr.addFlashAttribute("newsList", newsList);
 	    model.addAttribute("newsList", newsList);
 
 	    return "index";

@@ -481,12 +481,12 @@ function changeStarColor(event) {
 			    종목 선택
 			  </button>
 			  <ul class="dropdown-menu" style="width:120px">
-			    <li align=center id= "ethItem"><a class="dropdown-item">ETH</a></li>
-			    <li align=center id= "bchItem"><a class="dropdown-item">BCH</a></li>
-			    <li align=center id= "btcItem"><a class="dropdown-item">BTC</a></li>
-			    <li align=center><a class="dropdown-item">BNB</a></li>
-			    <li align=center><a class="dropdown-item">SOL</a></li>
-			    <li align=center><a class="dropdown-item">LTC</a></li>
+			    <li align=center id= "ethItem"><a class="dropdown-item" data-value="ETH">ETH</a></li>
+			    <li align=center id= "bchItem"><a class="dropdown-item" data-value="BCH">BCH</a></li>
+			    <li align=center id= "btcItem"><a class="dropdown-item" data-value="BTC">BTC</a></li>
+			    <li align=center><a class="dropdown-item" data-value="BNB">BNB</a></li>
+			    <li align=center><a class="dropdown-item" data-value="SOL">SOL</a></li>
+			    <li align=center><a class="dropdown-item" data-value="LTC">LTC</a></li>
 			  </ul>
 			</div>
 		</div> 
@@ -1056,6 +1056,22 @@ function myAlarm() {
 }
 
 </script>
+
+<!-- 뉴스검색 -->
+<script>
+$(document).ready(function() {
+  // 드롭다운 메뉴의 항목 클릭 시 이벤트 처리
+  $(".dropdown-item").on("click", function() {
+    // 클릭한 항목의 텍스트 값을 추출하여 hidden input에 저장
+    var selectedData = $(this).attr("data-value");
+    $("#selectedData").val(selectedData);
+
+    // 검색 폼 제출
+    $("#searchForm").submit();
+  });
+});
+</script>
+
 <!-- 새로고침 키다운 -->
 <script>
 function NotReload(){
