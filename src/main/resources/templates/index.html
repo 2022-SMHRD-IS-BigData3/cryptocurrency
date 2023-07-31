@@ -476,9 +476,7 @@ function changeStarColor(event) {
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div style="display: flex; align-items: center;">
-            <!-- 
             <form action="search" method="POST" id="searchForm">
-             -->
               <div class="dropdown">
 			  <button style="width:120px; margin-top:0px; margin-right:10px" class="btn btn-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			    종목 선택
@@ -492,9 +490,7 @@ function changeStarColor(event) {
 			    <li align=center><a class="dropdown-item" data-value="LTC">LTC</a></li>
 			  </ul>
 			</div>
-			<!-- 
 			  <input type="hidden" name="search" id="selectedData">
-			 -->
 				
             </form>
 		</div> 
@@ -746,7 +742,9 @@ function changeStarColor(event) {
               </div>
               <div id="volumeChart" class="chart"></div>
            </div>
+           <!-- srcData가 null인 경우에만 script가 나오게 코드 변경 -->
            <script src="./assets/js/plugins/chart-script.js"></script>
+           
             </div>
           </div>
         </div>
@@ -913,77 +911,20 @@ function changeStarColor(event) {
   <script src="./assets/js/plugins/perfect-scrollbar.min.js"></script>
   <script src="./assets/js/plugins/smooth-scrollbar.min.js"></script>
   <script src="./assets/js/plugins/chartjs.min.js"></script>
-  
- <script>
- document.addEventListener("DOMContentLoaded", function() {
-	// ethItem 요소를 선택합니다.
-	    var ethItem = document.getElementById("ethItem");
-	    var bchItem = document.getElementById("bchItem");
-	    var btcItem = document.getElementById("btcItem");
-
-
-	    // ethItem 요소를 클릭했을 때의 이벤트 리스너를 추가합니다.
-	    ethItem.addEventListener("click", function() {
-	        // ETH 차트를 띄우기 전에 기존에 띄워진 차트를 삭제합니다.
-	        var combinedChartContainer = document.getElementById("combinedChart");
-	        var volumeChartContainer = document.getElementById("volumeChart");
-
-	        // combinedChartContainer와 volumeChartContainer가 있는 경우 차트를 삭제합니다.
-	        if (combinedChartContainer) {
-	            combinedChartContainer.innerHTML = "";
-	        }
-
-	        if (volumeChartContainer) {
-	            volumeChartContainer.innerHTML = "";
-	        }
-
-	        // ETH 차트를 띄우는 스크립트를 동적으로 추가합니다.
-	        const ethScript = document.createElement("script");
-	        ethScript.src = "./assets/js/plugins/eth-script.js";
-	        document.body.appendChild(ethScript);
-	    });
-	    // bchItem 요소를 클릭했을 때의 이벤트 리스너를 추가합니다.
-	    bchItem.addEventListener("click", function() {
-	        // BCH 차트를 띄우기 전에 기존에 띄워진 차트를 삭제합니다.
-	        const combinedChartContainer = document.getElementById("combinedChart");
-	        const volumeChartContainer = document.getElementById("volumeChart");
-
-	        // combinedChartContainer와 volumeChartContainer가 있는 경우 차트를 삭제합니다.
-	        if (combinedChartContainer) {
-	            combinedChartContainer.innerHTML = "";
-	        }
-
-	        if (volumeChartContainer) {
-	            volumeChartContainer.innerHTML = "";
-	        }
-
-	        // BCH 차트를 띄우는 스크립트를 동적으로 추가합니다.
-	        const bchScript = document.createElement("script");
-	        bchScript.src = "./assets/js/plugins/bch-script.js"; // BCH 차트를 그리는 스크립트 파일 경로
-	        document.body.appendChild(bchScript);
-	    });
-	    
-	    btcItem.addEventListener("click", function() {
-	        // BCH 차트를 띄우기 전에 기존에 띄워진 차트를 삭제합니다.
-	        const combinedChartContainer = document.getElementById("combinedChart");
-	        const volumeChartContainer = document.getElementById("volumeChart");
-
-	        // combinedChartContainer와 volumeChartContainer가 있는 경우 차트를 삭제합니다.
-	        if (combinedChartContainer) {
-	            combinedChartContainer.innerHTML = "";
-	        }
-
-	        if (volumeChartContainer) {
-	            volumeChartContainer.innerHTML = "";
-	        }
-
-	        // BCH 차트를 띄우는 스크립트를 동적으로 추가합니다.
-	        const bchScript = document.createElement("script");
-	        bchScript.src = "./assets/js/plugins/chart-script.js"; // BCH 차트를 그리는 스크립트 파일 경로
-	        document.body.appendChild(bchScript);
-	    });
-	});
-</script>
+  <script>
+	  var combinedChartContainer = document.getElementById("combinedChart");
+	  var volumeChartContainer = document.getElementById("volumeChart");
+	
+	  // combinedChartContainer와 volumeChartContainer가 있는 경우 차트를 삭제합니다.
+	  if (combinedChartContainer) {
+	      combinedChartContainer.innerHTML = "";
+	  }
+	
+	  if (volumeChartContainer) {
+	      volumeChartContainer.innerHTML = "";
+	  }
+  </script>
+  <script th:src = '${srcData}'></script>
 <!-- 뉴스검색 -->
 <script>
 $(document).ready(function() {
@@ -991,10 +932,9 @@ $(document).ready(function() {
   $(".dropdown-item").on("click", function() {
     // 클릭한 항목의 텍스트 값을 추출하여 hidden input에 저장
     var selectedData = $(this).attr("data-value");
-    $("#selectedData").val(selectedData);
-
+	$("#selectedData").val(selectedData);
     // 검색 폼 제출
-    $("#searchForm").submit();
+   $("#searchForm").submit();
   });
 });
 </script>

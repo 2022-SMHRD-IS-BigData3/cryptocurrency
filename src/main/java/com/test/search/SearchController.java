@@ -1,6 +1,5 @@
 package com.test.search;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +26,21 @@ public class SearchController {
 	NewsRepository newsRepository;
 
 	// news의 조건을 준 검색 컨트롤러
-	@PostMapping(value="/search")
-	public String searchNews(@RequestParam("search") String search, RedirectAttributes rttr, Model model, HttpSession session) {
+	@PostMapping(value = "/search")
+	public String searchNews(@RequestParam("search") String search, RedirectAttributes rttr, Model model,
+			HttpSession session) {
 		String keyword = null;
-		System.out.println("이건뭐야??  :" +search);
+		String srcData = null;
+		System.out.println("이건뭐야??  :" + search);
 		if ("ETH".equals(search)) {
 			keyword = "이더리움";
+			srcData = "./assets/js/plugins/eth-script.js";
 		} else if ("BCH".equals(search)) {
 			keyword = "비트코인 캐시";
+			srcData = "./assets/js/plugins/bch-script.js"; // BCH 차트를 그리는 스크립트 파일 경로
 		} else if ("BTC".equals(search)) {
 			keyword = "비트코인";
+			srcData = "./assets/js/plugins/chart-script.js"; // BCH 차트를 그리는 스크립트 파일 경로
 		} else if ("BNB".equals(search)) {
 			keyword = "바이낸스코인";
 		} else if ("SOL".equals(search)) {
@@ -44,22 +48,22 @@ public class SearchController {
 		} else {
 			keyword = "라이트코인";
 		}
-	    List<News> newsList = new ArrayList<>();
-        newsList = newsRepository.findByKeyword(keyword);
-        System.out.println("keyword: " + keyword);
-	    if (session.getAttribute("user") != null) {
-	        tbl_user user = (tbl_user) session.getAttribute("user");
+		List<News> newsList = new ArrayList<>();
+		newsList = newsRepository.findByKeyword(keyword);
+		System.out.println("keyword: " + keyword);
+		if (session.getAttribute("user") != null) {
+			tbl_user user = (tbl_user) session.getAttribute("user");
 //	        rttr.addFlashAttribute("user", user);
-	        model.addAttribute("user", user);
-	        
-	    }
-//	    rttr.addFlashAttribute("newsList", newsList);
-	    model.addAttribute("newsList", newsList);
+			model.addAttribute("user", user);
 
-	    return "index";
+		}
+
+		System.out.println(newsList);
+//	    rttr.addFlashAttribute("newsList", newsList);
+		model.addAttribute("newsList", newsList);
+		model.addAttribute("srcData", srcData);
+
+		return "index";
 	}
 
-
-
-	
 }
