@@ -7,7 +7,7 @@
 ## 📉SERVICE DESCRIPTION
 
     - 서비스명: LightGBM을 활용한 미래차트 예측 트레이딩 대시보드
-    - 서비스설명: 
+    - 서비스설명: 암호화폐의 현재가격, 미래 예측차트, 거래량, 관련뉴스, 즐겨찾기 기능을 한눈에 보기 쉬운 대시보드 형태의 웹 페이지 
 
 ## 📈TIME FRAME
 2023.07.04 ~ 2023.08.02 (4주)
@@ -15,11 +15,11 @@
 ## 📊MAJOR FUNCTIONS
     1️⃣ 차트(CandleStick chart, Line chart, Bar chart)
     - CandleStick chart : WebSocket을 이용해 거래소 api로 가져온 암호화폐의 실시간 가격을 나타내준다.
-    - Line chart : LigntTGBM 모델을 기반으로 미래에 그려질 예측차트를 구현한다.
+    - Line chart : LightGBM 모델을 기반으로 미래에 그려질 예측차트를 구현한다.
     - Bar chart :  WebSocket을 이용해 거래소 api로 가져온 암호화폐의 실시간 거래량을 나타내준다.
 
     2️⃣ 실시간 뉴스
-     : 선택한 암호화폐에 대한 실시간 뉴스 10개를 Crawling을 통해 띄워준다.
+     : 선택한 암호화폐에 대한 실시간 뉴스 10개를 최신순으로 Crawling을 통해 띄워준다.
 
     3️⃣ 즐겨찾기
      - 거래소 api를 통해 받아온 암호화폐의 가격 및 가격변동률을 확인할 수 있다.
