@@ -101,10 +101,10 @@
 
 
 ## USER INTERFACE
-<img src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/4cdad9d5-f9ab-4890-a189-2fac5cb9da6f">
+<img src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/4cdad9d5-f9ab-4890-a189-2fac5cb9da6f" width="500">
 해당설명
 <hr>
-<img align="center" src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/de419b7d-38df-416a-b5ef-e81ec7be89bf">
+<img  src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/de419b7d-38df-416a-b5ef-e81ec7be89bf" width="500">
 해당설명
 <hr>
 
