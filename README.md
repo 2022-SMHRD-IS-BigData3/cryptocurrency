@@ -90,10 +90,10 @@ BLA BLA BLA BLA
 일정/고객센터
 
 ## THE FAM
-| 정민규 |	이도연 | 오선영 | 고주진 | 김희찬 |
+| 정민규 | 이도연 | 오선영 | 고주진 | 김희찬 |
 |---| ---|---|---|---|
-|PM |Frontend |	FS |	FS |	ML,Backend |
-|github |	github |	github |	github |	github|
+| PM | Frontend |	FS | FS | ML,Backend |
+|github|github |github |github |github|
 
 ## Assessment for posterity
 개념: 문제 해결을 위해 문제의 원인을 논리적이고 체계적으로 찾는 일이며 제품이나 프로세스의 운영을 재개 프로젝트 진행하는 동안 발생했던 이슈 중 가장 기억에 남았던 문제와 해결 프로세스 나열(2~5가지 정도)
