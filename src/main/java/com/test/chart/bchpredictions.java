@@ -1,6 +1,6 @@
 package com.test.chart;
 
-import java.sql.Timestamp;
+import java.sql.Timestamp; // Correct import for Timestamp
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,23 +16,19 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "ethdata")
+@Table(name = "bchpredictions")
 @Entity
-public class ethdata {
-	
-	 	@Id
-	    @GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Integer id;
+public class bchpredictions {
 
-	    @Column(name = "timestamp")
-	    private Timestamp timestamp;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
 
-	    private Integer m5_start;
-	    private Integer m5_max;
-	    private Integer m5_min;
-	    private Integer m5_end;
-	    private Integer volume;
-	
-	
+    @Column(name = "timestamp")
+    private Timestamp timestamp;
+
+    private String symbol;
+    private Integer preprice;
+
 
 }
