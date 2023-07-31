@@ -1,15 +1,15 @@
 # **cryptocurrency**
 ### 암호를대시오
 
-![withTayo Splash](/TayoTest/src/main/webapp/IMG/Bus_real_sketch.png)
+
 
 ## 🚐SERVICE DESCRIPTION
 
-    - 서비스명: 교통약자를 위한 저상버스 예약 시스템
-    - 서비스설명: 교통약자를 위한 편의기능 서비스
+    - 서비스명: LightGBM을 활용한 미래차트 예측 트레이딩 대시보드
+    - 서비스설명: 
 
 ## 🚌TIME FRAME
-2023.04.20 ~ 2023.05.04 (2주)
+2023.07.04 ~ 2023.08.02 (4주)
 
 ## MAJOR FUNCTIONS
     - 노선정보검색 기능
