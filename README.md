@@ -86,14 +86,14 @@
 ## SYSTEM ARCHITECTURE
 
 <br>
-#### 📌 FLOW
+### 📌 FLOW
 ![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/8527854c-9160-4207-b8b9-a3dbc4b43b20)
 
 
 
 
 <br>
-#### 📌 ERD
+### 📌 ERD
 <br>
 ![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/3d6b80e5-af01-44e5-8f30-e37595162824)
 
