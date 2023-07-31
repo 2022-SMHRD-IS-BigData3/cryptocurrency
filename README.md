@@ -87,8 +87,8 @@
 
 <br>
 #### 📌 FLOW
-<br>
-![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/1b5e2442-c00f-4484-a25f-a7759698e730)
+![KakaoTalk_20230731_105213869](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/8527854c-9160-4207-b8b9-a3dbc4b43b20)
+
 
 
 
