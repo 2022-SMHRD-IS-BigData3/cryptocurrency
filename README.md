@@ -3,18 +3,18 @@
 
 
 
-## 🚐SERVICE DESCRIPTION
+## 📉SERVICE DESCRIPTION
 
     - 서비스명: LightGBM을 활용한 미래차트 예측 트레이딩 대시보드
     - 서비스설명: 
 
-## 🚌TIME FRAME
+## 📈TIME FRAME
 2023.07.04 ~ 2023.08.02 (4주)
 
-## MAJOR FUNCTIONS
-    - 노선정보검색 기능
-    - 승객 예약 기능
-    - 기사 예약 대기 기능
+## 📊MAJOR FUNCTIONS
+    - 
+    - 
+    - 
 
 ## TECH STACK
 
