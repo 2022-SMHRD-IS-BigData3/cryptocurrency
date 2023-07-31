@@ -70,13 +70,15 @@
 </table>
 
 ## SYSTEM ARCHITECTURE
-#### 📌 SERVICES ARCHITECTURE
 
 <br>
 #### 📌 FLOW
+![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/60544c11-b85f-4bee-b80b-579d6ea89afd)
 
 <br>
 #### 📌 ERD
+![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/c03507ba-c2ef-4c4c-89a6-8f4b51b77542)
+
 
 ## USER INTERFACE
 
