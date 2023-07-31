@@ -476,6 +476,9 @@ function changeStarColor(event) {
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
             <div style="display: flex; align-items: center;">
+            <!-- 
+            <form action="search" method="POST" id="searchForm">
+             -->
               <div class="dropdown">
 			  <button style="width:120px; margin-top:0px; margin-right:10px" class="btn btn-secondary dropdown-toggle " type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			    종목 선택
@@ -489,6 +492,11 @@ function changeStarColor(event) {
 			    <li align=center><a class="dropdown-item" data-value="LTC">LTC</a></li>
 			  </ul>
 			</div>
+			<!-- 
+			  <input type="hidden" name="search" id="selectedData">
+			 -->
+				
+            </form>
 		</div> 
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item d-flex align-items-center">
@@ -908,10 +916,11 @@ function changeStarColor(event) {
   
  <script>
  document.addEventListener("DOMContentLoaded", function() {
-	    // ethItem 요소를 선택합니다.
+	// ethItem 요소를 선택합니다.
 	    var ethItem = document.getElementById("ethItem");
-	    
-	    const bchItem = document.getElementById("bchItem");
+	    var bchItem = document.getElementById("bchItem");
+	    var btcItem = document.getElementById("btcItem");
+
 
 	    // ethItem 요소를 클릭했을 때의 이벤트 리스너를 추가합니다.
 	    ethItem.addEventListener("click", function() {
@@ -974,6 +983,20 @@ function changeStarColor(event) {
 	        document.body.appendChild(bchScript);
 	    });
 	});
+</script>
+<!-- 뉴스검색 -->
+<script>
+$(document).ready(function() {
+  // 드롭다운 메뉴의 항목 클릭 시 이벤트 처리
+  $(".dropdown-item").on("click", function() {
+    // 클릭한 항목의 텍스트 값을 추출하여 hidden input에 저장
+    var selectedData = $(this).attr("data-value");
+    $("#selectedData").val(selectedData);
+
+    // 검색 폼 제출
+    $("#searchForm").submit();
+  });
+});
 </script>
 
  <!-- 알림 목록 -->
@@ -1057,20 +1080,7 @@ function myAlarm() {
 
 </script>
 
-<!-- 뉴스검색 -->
-<script>
-$(document).ready(function() {
-  // 드롭다운 메뉴의 항목 클릭 시 이벤트 처리
-  $(".dropdown-item").on("click", function() {
-    // 클릭한 항목의 텍스트 값을 추출하여 hidden input에 저장
-    var selectedData = $(this).attr("data-value");
-    $("#selectedData").val(selectedData);
 
-    // 검색 폼 제출
-    $("#searchForm").submit();
-  });
-});
-</script>
 
 <!-- 새로고침 키다운 -->
 <script>

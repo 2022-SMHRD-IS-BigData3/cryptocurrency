@@ -58,7 +58,9 @@ var combinedOptions = {
       tooltip: {
         enabled: true
       },
-      tickAmount: 6 // Adjust the number of ticks on the y-axis for Candlestick and Line charts as needed
+      min : 29400,
+      max : 29510,
+      tickAmount: 3 // Adjust the number of ticks on the y-axis for Candlestick and Line charts as needed
     },
     
   ],
@@ -120,6 +122,7 @@ var volumeOptions = {
   yaxis: {
     seriesName: "Volume",
     opposite: false, // Move y-axis to the right side for Volume chart
+    max : 40,
     tickAmount: 3 // Adjust the number of ticks on the y-axis for Volume chart as needed
   },
   dataLabels: {
