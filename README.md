@@ -87,14 +87,14 @@
 
 <br>
 ### 📌 FLOW
-![흐름도](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/39d61f8f-9bd3-4629-b89b-85974fb6e3ff.png)
-
+<img src= "https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/39d61f8f-9bd3-4629-b89b-85974fb6e3ff" >
 
 
 
 <br>
 ### 📌 ERD
-![ERD](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/c8975717-8f80-4e42-acfa-6cb021089f81.png)
+<img src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/c8975717-8f80-4e42-acfa-6cb021089f81">
+
 
 
 
