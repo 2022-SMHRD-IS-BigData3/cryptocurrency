@@ -122,7 +122,7 @@ var volumeOptions = {
   yaxis: {
     seriesName: "Volume",
     opposite: false,  // Move y-axis to the right side for Volume chart
-    max : 610000,
+    max : 180000,
     tickAmount: 3 // Adjust the number of ticks on the y-axis for Volume chart as needed
   },
   dataLabels: {
