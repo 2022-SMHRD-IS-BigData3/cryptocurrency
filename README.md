@@ -90,9 +90,9 @@ BLA BLA BLA BLA
 일정/고객센터
 
 ## THE FAM
-| HC K |	DH S |	EH B |	DH K |	MC W|
+| 정민규 |	이도연 | 오선영 | 고주진 | 김희찬 |
 |---| ---|---|---|---|
-|PM |	Backend |	Frontend |	Frontend |	DBA |
+|PM |Frontend |	FS |	FS |	ML,Backend |
 |github |	github |	github |	github |	github|
 
 ## Assessment for posterity
