@@ -13,9 +13,23 @@
 2023.07.04 ~ 2023.08.02 (4주)
 
 ## 📊MAJOR FUNCTIONS
-    - 
-    - 
-    - 
+    ① 차트(CandleStick chart, Line chart, Bar chart)
+    - CandleStick chart : WebSocket을 이용해 거래소 api로 가져온 암호화폐의 실시간 가격을 나타내준다.
+    - Line chart : LigntTGBM 모델을 기반으로 미래에 그려질 예측차트를 구현한다.
+    - Bar chart :  WebSocket을 이용해 거래소 api로 가져온 암호화폐의 실시간 거래량을 나타내준다.
+
+    ② 실시간 뉴스
+     : 선택한 암호화폐에 대한 실시간 뉴스 10개를 Crawling을 통해 띄워준다.
+
+    ③ 즐겨찾기
+     - 거래소 api를 통해 받아온 암호화폐의 가격 및 가격변동률을 확인할 수 있다.
+     - 관심종목을 보기쉽게 설정할 수 있다. (로그인 필요)
+
+    ④ 텔레그램 알림
+    : 알림을 받기 원하는 가격을 저장하여 해당 가격에 도달했을 때 telegram으로 알림을 전송해준다.
+
+    
+    
 
 ## TECH STACK
 
