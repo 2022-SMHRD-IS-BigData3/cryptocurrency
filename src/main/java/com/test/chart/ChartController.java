@@ -44,22 +44,40 @@ public class ChartController {
     @Autowired
     PredictionsRepository predictions;
     
+    @Autowired
+    ethPredRepository epred;
+    
+    @Autowired
+    bchPredRepository bpred;
+    
     @GetMapping("/predictions")
     public @ResponseBody List<PredictionEntity> getPredictionsData() {
         // Fetch all predictions data from the database using the custom method in PredictionsRepository
         List<PredictionEntity> predictionsData = predictions.findAll();
         return predictionsData;
     }
-    @GetMapping("/ethdata")
-    public @ResponseBody List<ethdata> getEthData() {
+    @GetMapping("/ethpredictions")
+    public @ResponseBody List<ethpredictions> getEthPredictionsData() {
         // Fetch all predictions data from the database using the custom method in PredictionsRepository
-        List<ethdata> result = erep.findAll();
+        List<ethpredictions> predictionsData = epred.findAll();
+        return predictionsData;
+    }
+    @GetMapping("/bchpredictions")
+    public @ResponseBody List<bchpredictions> getBchPredictionsData() {
+        // Fetch all predictions data from the database using the custom method in PredictionsRepository
+        List<bchpredictions> predictionsData = bpred.findAll();
+        return predictionsData;
+    }
+    @GetMapping("/ethdata")
+    public @ResponseBody List<ethusdtdata> getEthData() {
+        // Fetch all predictions data from the database using the custom method in PredictionsRepository
+        List<ethusdtdata> result = erep.findAll();
         return result;
     }
     @GetMapping("/bchdata")
-    public @ResponseBody List<bchdata> getBchData() {
+    public @ResponseBody List<bchusdtdata> getBchData() {
         // Fetch all predictions data from the database using the custom method in PredictionsRepository
-        List<bchdata> result = hrep.findAll();
+        List<bchusdtdata> result = hrep.findAll();
         return result;
     }
 
