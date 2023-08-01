@@ -86,22 +86,27 @@
 ## SYSTEM ARCHITECTURE
 
 <br>
-#### 📌 FLOW
-<br>
-![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/1b5e2442-c00f-4484-a25f-a7759698e730)
+### 📌 FLOW
+<img src= "https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/39d61f8f-9bd3-4629-b89b-85974fb6e3ff" >
 
 
 
 <br>
-#### 📌 ERD
-<br>
-![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/3d6b80e5-af01-44e5-8f30-e37595162824)
+### 📌 ERD
+<img src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/c8975717-8f80-4e42-acfa-6cb021089f81">
+
+
 
 
 
 
 ## USER INTERFACE
-
+<img src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/4cdad9d5-f9ab-4890-a189-2fac5cb9da6f" width="500">
+해당설명
+<hr>
+<img  src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/de419b7d-38df-416a-b5ef-e81ec7be89bf" width="500">
+해당설명
+<hr>
 
 
 
