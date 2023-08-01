@@ -58,8 +58,8 @@ var combinedOptions = {
       tooltip: {
         enabled: true
       },
-      min : 243,
-      max : 254,
+      min : 241,
+      max : 247,
       tickAmount: 6 // Adjust the number of ticks on the y-axis for Candlestick and Line charts as needed
     },
     
@@ -122,7 +122,7 @@ var volumeOptions = {
   yaxis: {
     seriesName: "Volume",
     opposite: false, // Move y-axis to the right side for Volume chart
-    max: 610000,
+    max: 130000,
     tickAmount: 3 // Adjust the number of ticks on the y-axis for Volume chart as needed
   },
   dataLabels: {
@@ -265,13 +265,13 @@ function fetchCombinedChartData(start, end) {
 }
 
 function updateCharts() {
-    var newStart = end;
+    var newStart = newEnd;
     var newEnd = new Date().getTime();
     fetchCombinedChartData(newStart, newEnd);
   }
 
   // Update the charts every 10 seconds
-  setInterval(updateCharts, 10000);
+  setInterval(updateCharts, 60000);
 
   function handleXAxisRangeUpdate({ min, max }) {
     // Calculate the time difference between max and min in milliseconds
