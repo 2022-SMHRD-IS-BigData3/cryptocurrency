@@ -58,8 +58,8 @@ var combinedOptions = {
       tooltip: {
         enabled: true
       },
-      min : 29350,
-      max : 29510,
+      min : 29170,
+      max : 29410,
       tickAmount: 6 // Adjust the number of ticks on the y-axis for Candlestick and Line charts as needed
     },
     
