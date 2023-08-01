@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Stop animation when duration is reached
         if (progress < duration) {
-          element.innerHTML = updatedPrice.toFixed(2) + '<span class="text-m font-weight-bolder"> (+' + change.toFixed(2) + ')</span>';
+          element.innerHTML = updatedPrice.toFixed(2) + '<span class="text-m font-weight-bolder"> (' + (change > 0 ? '+' : '') + change.toFixed(2) + ')</span>';
           element.style.color = change > 0 ? 'green' : 'red';
           requestAnimationFrame(updateStep);
         } else {
@@ -833,7 +833,7 @@ function changeStarColor(event) {
   <!-- 즐겨찾기탭 -->
          <div class="fixed-plugin">
          
-              <i class="fa fa-cog py-2" onclick="myAlarm()"> </i>
+              
           </a>
           <!-- 즐겨찾기탭 -->
              <div class="card shadow-lg">
