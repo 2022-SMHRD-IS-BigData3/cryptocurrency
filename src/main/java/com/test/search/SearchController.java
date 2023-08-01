@@ -36,7 +36,7 @@ public class SearchController {
 			keyword = "이더리움";
 			srcData = "./assets/js/plugins/eth-script.js";
 		} else if ("BCH".equals(search)) {
-			keyword = "비트코인 캐시";
+			keyword = "BCH";
 			srcData = "./assets/js/plugins/bch-script.js"; // BCH 차트를 그리는 스크립트 파일 경로
 		} else if ("BTC".equals(search)) {
 			keyword = "비트코인";
