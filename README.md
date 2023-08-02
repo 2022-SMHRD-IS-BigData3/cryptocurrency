@@ -31,7 +31,7 @@
     
     
 
-## TECH STACK
+## ⚙ TECH STACK
 
 <table>
     <tr>
@@ -102,7 +102,7 @@
 
 
 
-## USER INTERFACE
+## 💻 USER INTERFACE
 <img src="https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/129911634/4cdad9d5-f9ab-4890-a189-2fac5cb9da6f" width="500">
 <br>
 해당설명
@@ -117,13 +117,13 @@
 
 <br>
 
-## THE FAM
+## 👩🏻‍💻 THE FAM
 | 정민규 | 이도연 | 오선영 | 고주진 | 김희찬 |
 |---| ---|---|---|---|
 | PM | Frontend |	FS | FS | ML,Backend |
 |github|github |github |github |github|
 
-## 트러블슈팅
+## 💪🏻 TROUBLE SHOOTING
 ![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/7c36bc9d-b959-47e9-9f5b-debdf0a123d5)
 ![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/9f5ac81c-9089-4683-8d18-e0e5d822d626)
 ![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/ed684e1b-a696-44cc-bd05-234f0eeba2c2)
