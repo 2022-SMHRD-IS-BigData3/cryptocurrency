@@ -123,6 +123,11 @@
 | PM | Frontend |	FS | FS | ML,Backend |
 |github|github |github |github |github|
 
-## Assessment for posterity
-개념: 문제 해결을 위해 문제의 원인을 논리적이고 체계적으로 찾는 일이며 제품이나 프로세스의 운영을 재개 프로젝트 진행하는 동안 발생했던 이슈 중 가장 기억에 남았던 문제와 해결 프로세스 나열(2~5가지 정도)
+## 트러블슈팅
+![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/7c36bc9d-b959-47e9-9f5b-debdf0a123d5)
+![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/9f5ac81c-9089-4683-8d18-e0e5d822d626)
+![image](https://github.com/2022-SMHRD-IS-BigData3/cryptocurrency/assets/128571044/ed684e1b-a696-44cc-bd05-234f0eeba2c2)
+
+
+
 
